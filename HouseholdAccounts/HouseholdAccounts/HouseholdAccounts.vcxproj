@@ -141,13 +141,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Array.h" />
+    <ClInclude Include="Character.h" />
+    <ClInclude Include="DoubleByteCharacter.h" />
     <ClInclude Include="HouseholdAccountsApp.h" />
     <ClInclude Include="HouseholdAccountsForm.h" />
+    <ClInclude Include="Row.h" />
+    <ClInclude Include="SingleByteCharacter.h" />
     <ClInclude Include="TextEdit.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Character.cpp" />
+    <ClCompile Include="DoubleByteCharacter.cpp" />
     <ClCompile Include="HouseholdAccountsApp.cpp" />
     <ClCompile Include="HouseholdAccountsForm.cpp" />
+    <ClCompile Include="Row.cpp" />
+    <ClCompile Include="SingleByteCharacter.cpp" />
     <ClCompile Include="TextEdit.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -17,7 +17,10 @@ int HouseholdAccountsForm::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 }
 void HouseholdAccountsForm::OnLButtonDblClk(UINT, CPoint) {
 	this->textEdit = new TextEdit(this);
-	this->textEdit->Create(NULL, "TextEdit", WS_CHILD | WS_VISIBLE, CRect(10, 20, 30, 40), this, NULL);
+	CRect rect;
+	this->GetClientRect(rect);
+
+	this->textEdit->Create(NULL, "TextEdit", WS_CHILD | WS_VISIBLE, rect, this, NULL);
 }
 void HouseholdAccountsForm::OnPaint() {
 	CPaintDC cPaintDC(this);

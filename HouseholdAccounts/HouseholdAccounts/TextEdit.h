@@ -3,6 +3,7 @@
 
 #include <afxwin.h>
 class HouseholdAccountsForm;
+class Row;
 class TextEdit : public CWnd {
 public:
 	TextEdit(HouseholdAccountsForm *householdAccountsForm);
@@ -12,8 +13,11 @@ protected:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnPaint();
 	afx_msg void OnKeyDown(UINT nChar,UINT nRepCnt,UINT nFlags);
+	afx_msg void OnChar(UINT nChar, UINT nRepCnt, UINT nFlags);
 	DECLARE_MESSAGE_MAP()
-public:
+private:
 	HouseholdAccountsForm *householdAccountsForm;
+	Row *row;
+	
 };
 #endif // !_TEXTEDIT_H
