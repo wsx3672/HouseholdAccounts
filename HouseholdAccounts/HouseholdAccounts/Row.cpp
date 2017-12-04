@@ -1,42 +1,38 @@
 #include "Row.h"
 
-Row::Row(Long capacity) : characters(capacity){
+Row::Row(Long capacity) : TextComposite(capacity){
 	this->capacity = capacity;
 	this->length = 0;
 }
 Row::~Row() {
-	Long i = 0;
-	while (i < this->length) {
-		if (this->characters.GetAt(i) != 0) {
-			this->characters.Delete(i);
-		}
-		i++;
-	}
 }
-Row::Row(const Row& source) : characters(source.characters) {
+Row::Row(const Row& source) : TextComposite(source) {
+	this->textComponents = source.textComponents;
 	this->capacity = source.capacity;
 	this->length = source.length;
 }
 Row& Row::operator=(const Row& source) {
-	this->characters = source.characters;
+	this->textComponents = source.textComponents;
+	this->capacity = source.capacity;
+	this->length = source.length;
 	return *this;
 }
-Long Row::Add(Character *character) {
+Long Row::Add(TextComponent *textComponent) {
 	if (this->length < this->capacity) {
-		this->characters.Store(this->length, character);
+		this->textComponents.Store(this->length, textComponent);
 	}
 	else {
-		this->characters.AppendFromRear(character);
+		this->textComponents.AppendFromRear(textComponent);
 		this->capacity++;
 	}
 	this->length++;
 	return this->length;
 }
-Character* Row::GetAt(Long index) {
-	return this->characters.GetAt(index);
+TextComponent* Row::GetAt(Long index) {
+	return this->textComponents.GetAt(index);
 }
-Character* Row::operator[] (Long index) {
-	return this->characters[index];
+TextComponent* Row::operator[] (Long index) {
+	return this->textComponents[index];
 }
 /*
 #include <iostream>

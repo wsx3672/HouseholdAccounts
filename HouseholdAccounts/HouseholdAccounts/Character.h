@@ -1,7 +1,8 @@
 #ifndef _CHARACTER_H
 #define _CHARACTER_H
+#include "TextComponent.h"
 
-class Character {
+class Character : public TextComponent {
 public:
 
 	Character();

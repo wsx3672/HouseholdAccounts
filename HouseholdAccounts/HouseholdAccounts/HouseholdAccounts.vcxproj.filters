@@ -39,6 +39,15 @@
     <ClInclude Include="Array.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Text.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="TextComponent.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="TextComposite.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HouseholdAccountsApp.cpp">
@@ -60,6 +69,15 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Row.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Text.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="TextComponent.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="TextComposite.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

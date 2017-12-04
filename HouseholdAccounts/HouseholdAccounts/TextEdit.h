@@ -3,7 +3,7 @@
 
 #include <afxwin.h>
 class HouseholdAccountsForm;
-class Row;
+class Text;
 class TextEdit : public CWnd {
 public:
 	TextEdit(HouseholdAccountsForm *householdAccountsForm);
@@ -17,7 +17,7 @@ protected:
 	DECLARE_MESSAGE_MAP()
 private:
 	HouseholdAccountsForm *householdAccountsForm;
-	Row *row;
+	Text *text;
 	
 };
 #endif // !_TEXTEDIT_H

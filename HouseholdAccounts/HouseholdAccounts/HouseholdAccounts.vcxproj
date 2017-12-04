@@ -148,6 +148,9 @@
     <ClInclude Include="HouseholdAccountsForm.h" />
     <ClInclude Include="Row.h" />
     <ClInclude Include="SingleByteCharacter.h" />
+    <ClInclude Include="Text.h" />
+    <ClInclude Include="TextComponent.h" />
+    <ClInclude Include="TextComposite.h" />
     <ClInclude Include="TextEdit.h" />
   </ItemGroup>
   <ItemGroup>
@@ -157,6 +160,9 @@
     <ClCompile Include="HouseholdAccountsForm.cpp" />
     <ClCompile Include="Row.cpp" />
     <ClCompile Include="SingleByteCharacter.cpp" />
+    <ClCompile Include="Text.cpp" />
+    <ClCompile Include="TextComponent.cpp" />
+    <ClCompile Include="TextComposite.cpp" />
     <ClCompile Include="TextEdit.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
