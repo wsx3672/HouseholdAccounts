@@ -4,8 +4,9 @@ typedef signed long int Long;
 
 #include "TextComponent.h"
 #include "Array.h"
-
-
+#include <afxwin.h>
+#include <string>
+using namespace std;
 class TextComposite : public TextComponent {
 public:
 	virtual ~TextComposite();
@@ -21,6 +22,7 @@ public:
 	TextComponent* GetAt(Long index);
 	TextComponent* operator[](Long ingex);
 	TextComposite(Long capacity = 10000 );
+	CString MakeCString();
 protected:
 	Array<TextComponent*> textComponents;
 	Long capacity;

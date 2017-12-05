@@ -142,10 +142,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Array.h" />
+    <ClInclude Include="BackSpaceKey.h" />
     <ClInclude Include="Character.h" />
     <ClInclude Include="DoubleByteCharacter.h" />
+    <ClInclude Include="EnterKey.h" />
     <ClInclude Include="HouseholdAccountsApp.h" />
     <ClInclude Include="HouseholdAccountsForm.h" />
+    <ClInclude Include="KeyAction.h" />
+    <ClInclude Include="KeyBoard.h" />
     <ClInclude Include="Row.h" />
     <ClInclude Include="SingleByteCharacter.h" />
     <ClInclude Include="Text.h" />
@@ -154,10 +158,14 @@
     <ClInclude Include="TextEdit.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BackSpaceKey.cpp" />
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="DoubleByteCharacter.cpp" />
+    <ClCompile Include="EnterKey.cpp" />
     <ClCompile Include="HouseholdAccountsApp.cpp" />
     <ClCompile Include="HouseholdAccountsForm.cpp" />
+    <ClCompile Include="KeyAction.cpp" />
+    <ClCompile Include="KeyBoard.cpp" />
     <ClCompile Include="Row.cpp" />
     <ClCompile Include="SingleByteCharacter.cpp" />
     <ClCompile Include="Text.cpp" />

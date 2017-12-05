@@ -1,5 +1,6 @@
 #include "TextComposite.h"
-
+#include "SingleByteCharacter.h"
+#include "DoubleByteCharacter.h"
 TextComposite::TextComposite(Long capacity) : textComponents(capacity) {
 	this->capacity = capacity;
 	this->length = 0;
@@ -50,40 +51,29 @@ Long TextComposite::Remove(TextComponent *textComponent) {
 	}
 	return index;
 }
-/*
-#include <iostream>
-#include "SingleByteCharacter.h"
-using namespace std;
-
-int main(int agrc, char *argv[]) {
-	TextComposite textComposite;
-	SingleByteCharacter singleByteCharacter('A');
-	TextComposite *test = textComposite.GetComposite();
-
-	textComposite.Add(&singleByteCharacter);
-	if (test == 0) {
-		cout << "¸»´Ü °´Ã¼ÀÓ " << endl;
-	}
-	else {
-		cout << "º¹ÇÕ °´Ã¼ÀÓ " << endl;
-	}
-	TextComposite composite(textComposite);
-	
-	Long compositeLength = composite.GetLength();
-	Long compositeCapacity = composite.GetCapacity();
-
+CString TextComposite::MakeCString() {
+	char tempChar[1028];
 	Long i = 0;
-	while (i < compositeLength) {
-		TextComponent *component = composite.GetAt(i);
-		char test = static_cast<SingleByteCharacter*>(component)->GetCharacter();
-		cout << endl << test << endl;
+	Long j = 0;
+	while (i < this->length) {
+		TextComponent *textComponent = this->GetAt(i);
+		if (dynamic_cast<SingleByteCharacter*>(textComponent)) {
+			SingleByteCharacter *singleByteCharacter = static_cast<SingleByteCharacter*>(textComponent);
+			char temp = singleByteCharacter->GetCharacter();
+			if(temp != '\n'){
+			tempChar[j] = singleByteCharacter->GetCharacter();
+			j++;
+			}
+		}
+		if (dynamic_cast<DoubleByteCharacter*>(textComponent)) {
+			DoubleByteCharacter *doubleByteCharacter = static_cast<DoubleByteCharacter*>(textComponent);
+			tempChar[j] = doubleByteCharacter->GetCharacter()[0];
+			j++;
+			tempChar[j] = doubleByteCharacter->GetCharacter()[1];
+			j++;
+		}
 		i++;
 	}
-	textComposite.Remove(&singleByteCharacter);
-	Long length = textComposite.GetLength();
-	Long capacity = textComposite.GetCapacity();
-	
-	cout << capacity << "    " << length << endl;
-	return 0;
+	CString cString(tempChar, j);
+	return cString;
 }
-*/

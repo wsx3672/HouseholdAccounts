@@ -4,6 +4,7 @@
 #include <afxwin.h>
 class HouseholdAccountsForm;
 class Text;
+class KeyBoard;
 class TextEdit : public CWnd {
 public:
 	TextEdit(HouseholdAccountsForm *householdAccountsForm);
@@ -17,7 +18,8 @@ protected:
 	DECLARE_MESSAGE_MAP()
 private:
 	HouseholdAccountsForm *householdAccountsForm;
+public:
 	Text *text;
-	
+	KeyBoard *keyBoard;
 };
 #endif // !_TEXTEDIT_H

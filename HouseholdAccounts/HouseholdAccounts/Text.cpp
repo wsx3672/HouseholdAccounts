@@ -36,10 +36,11 @@ TextComponent* Text::GetAt(Long index) {
 TextComponent* Text::operator[](Long index) {
 	return this->textComponents[index];
 }
+/*
 int main(int agrc, char *argv[]) {
 	return 0;
 }
-/*
+/
 #include <iostream>
 #include "Row.h"
 #include "SingleByteCharacter.h"

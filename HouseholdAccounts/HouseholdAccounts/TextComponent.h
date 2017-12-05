@@ -14,5 +14,6 @@ public:
 	virtual Long Add(TextComponent *textComponent);
 	virtual Long Remove(TextComponent *textComponent);
 	virtual TextComposite* GetComposite();
+
 };
 #endif // !_TEXTCOMPONENT_H

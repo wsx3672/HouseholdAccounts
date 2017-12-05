@@ -41,29 +41,18 @@ TextComponent* Row::operator[] (Long index) {
 using namespace std;
 int main(int argc, char *argv[]) {
 	Row row;
-	//SingleByteCharacter *singleByteCharacter = new SingleByteCharacter('A');
-	//DoubleByteCharacter *doubleByteCharacter = new DoubleByteCharacter("วั");
+	Long i = 0;
+	while (i < 100) {
+		SingleByteCharacter *singleByteCharacter = new SingleByteCharacter('A');
+		DoubleByteCharacter *doubleByteCharacter =  new DoubleByteCharacter("วั");
 
-	SingleByteCharacter singleByteCharacter('A');
-	DoubleByteCharacter doubleByteCharacter("วั");
+		row.Add(singleByteCharacter);
+		row.Add(doubleByteCharacter);
+		i++;
+	}
+	CString cString = row.MakeCString();
 
-	row.Add(static_cast<Character*>(&singleByteCharacter));
-	row.Add(static_cast<Character*>(&doubleByteCharacter));
-
-	Character *character = row[0];
-	Character *character1 = row[1];
-
-	char test = static_cast<SingleByteCharacter*>(character)->GetCharacter();
-	char *test1 = static_cast<DoubleByteCharacter*>(character1)->GetCharacter();
-
-	test1[2] = '\0';
-
-	cout << test << test1 << endl;
-
-	Long capacity = row.GetCapacity();
-	Long length = row.GetLength();
-	cout << capacity << "  " << length << endl;
-
+	cout << cString << endl;
 	return 0;
 }
 */
