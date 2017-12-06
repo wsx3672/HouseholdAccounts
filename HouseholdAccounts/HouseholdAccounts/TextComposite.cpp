@@ -31,6 +31,9 @@ Long TextComposite::Add(TextComponent *textComponent) {
 	this->length++;
 	return this->length;
 }
+Long TextComposite::Modify(Long index, TextComponent *textComponent) {
+	return this->textComponents.Modify(index, textComponent);
+}
 TextComponent* TextComposite::GetAt(Long index) {
 	return this->textComponents.GetAt(index);
 }

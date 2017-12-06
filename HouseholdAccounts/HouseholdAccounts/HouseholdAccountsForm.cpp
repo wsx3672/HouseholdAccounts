@@ -21,6 +21,7 @@ void HouseholdAccountsForm::OnLButtonDblClk(UINT, CPoint) {
 	this->GetClientRect(rect);
 
 	this->textEdit->Create(NULL, "TextEdit", WS_CHILD | WS_VISIBLE, rect, this, NULL);
+	this->textEdit->SetFocus();
 }
 void HouseholdAccountsForm::OnPaint() {
 	CPaintDC cPaintDC(this);

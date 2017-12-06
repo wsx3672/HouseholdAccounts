@@ -10,6 +10,6 @@ public:
 	BackSpaceKey(const BackSpaceKey& source);
 
 	BackSpaceKey& operator= (const BackSpaceKey& source);
-	virtual void Action(TextEdit *textEidt);
+	virtual void Action(TextEdit *textEdit);
 };
 #endif // !_BACKSPACEKEY_H

@@ -5,12 +5,16 @@
 #include "SingleByteCharacter.h"
 #include "TextComposite.h"
 #include "KeyBoard.h"
+#include "WritingKorean.h"
+#include "DoubleByteCharacter.h"
 #include "KeyAction.h"
+#include "Caret.h"
 #include <cstring>
 using namespace std;
 BEGIN_MESSAGE_MAP(TextEdit, CWnd)
 	ON_WM_CREATE()
 	ON_WM_PAINT()
+	ON_MESSAGE(WM_IME_COMPOSITION, OnComposition)
 	ON_WM_KEYDOWN()
 	ON_WM_CLOSE()
 	ON_WM_CHAR()
@@ -20,26 +24,42 @@ TextEdit::TextEdit(HouseholdAccountsForm *householdAccountsForm) {
 	this->householdAccountsForm = householdAccountsForm;
 	this->keyBoard = NULL;
 	this->text = NULL;
+	this->caret = NULL;
+	this->keyDownCheck = -1;
+	this->WritingKoreanState = false;
 }
 void TextEdit::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
-	
+	this->keyDownCheck = -1;
+	KeyAction *keyAction = this->keyBoard->Action(this, nChar, nRepCnt, nFlags);
+	if (keyAction != NULL) {
+		this->keyDownCheck = 1;
+		keyAction->Action(this);
+	}
 }
 void TextEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
 	char nChar1 = nChar;
-	Long check = -1;
-	KeyAction *keyAction = this->keyBoard->Action(this, nChar, nRepCnt, nFlags);
-	if (keyAction != NULL) {
-		check = 1;
-		keyAction->Action(this);
-	}
-	if (check < 0  ) {
+	if (this->keyDownCheck < 0 && this->WritingKoreanState == false) {
 		Long length = this->text->GetLength();
-		TextComponent *textComponent = this->text->GetAt(length -1);
+		TextComponent *textComponent = this->text->GetAt(length - 1);
 		SingleByteCharacter *singleByteCharacter = new SingleByteCharacter(nChar1);
 		textComponent->Add(static_cast<Character*>(singleByteCharacter));
+		this->caret->CreateCaret();
+		this->caret->RightMovingCaret();
 	}
-	
 	this->Invalidate();
+}
+Long TextEdit::OnComposition(WPARAM wParam, LPARAM lParam) {
+	HIMC hIMC = ImmGetContext(GetSafeHwnd());
+
+	WritingKorean *writingKorean = new WritingKorean();
+	writingKorean->WritingHanguel(wParam, lParam, hIMC, this);
+
+	if (writingKorean != NULL) {
+		delete writingKorean;
+	}
+	ImmReleaseContext(GetSafeHwnd(), hIMC);
+	this->Invalidate();
+	return 0;
 }
 void TextEdit::OnPaint() {
 	CPaintDC dc(this);
@@ -48,7 +68,7 @@ void TextEdit::OnPaint() {
 	dc.FillSolidRect(rect, RGB(255, 255, 255));
 	CFont font;
 	font.CreateFont(17, 0, 0, 0, FW_NORMAL, FALSE, FALSE, 0, DEFAULT_CHARSET,
-		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "±Ã¼­Ã¼");
+		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "°íµñÃ¼");
 	SetFont(&font, TRUE);
 	dc.SelectObject(font);
 	Long i = 0;
@@ -70,8 +90,16 @@ int TextEdit::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	Row *row = new Row();
 	this->text->Add(row);
 	this->keyBoard = new KeyBoard();
+	this->caret = new Caret(this);
+	this->caret->CreateCaret();
 	return 0;
 }
 void TextEdit::OnClose() {
+	if (this->text != NULL) {
+		delete this->text;
+	}
+	if (this->keyBoard != NULL) {
+		delete this->keyBoard;
+	}
 	CWnd::OnClose();
 }

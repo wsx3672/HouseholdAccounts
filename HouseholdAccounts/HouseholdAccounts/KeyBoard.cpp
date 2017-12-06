@@ -1,6 +1,7 @@
 #include "Keyboard.h"
 #include "KeyAction.h"
 #include "EnterKey.h"
+#include "KoreanEnglishChangeKey.h"
 #include "BackSpaceKey.h"
 KeyBoard::KeyBoard() {
 	this->keyAction = 0;
@@ -23,6 +24,7 @@ KeyAction* KeyBoard::Action(TextEdit *textEdit, UINT nChar, UINT nRepCnt, UINT n
 	{
 	case VK_RETURN:this->keyAction = new EnterKey; break;
 	case VK_BACK:this->keyAction = new BackSpaceKey; break;
+	case 229:this->keyAction = new KoreanEnglishChangeKey; break; //ÇÑ¿µÅ°
 	default: break;
 	}
 	return this->keyAction;

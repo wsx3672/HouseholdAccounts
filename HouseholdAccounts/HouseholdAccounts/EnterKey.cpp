@@ -23,6 +23,3 @@ void EnterKey::Action(TextEdit *textEidt) {
 	Row *row = new Row();
 	textEidt->text->Add(row);
 }
-int main(int argc, char *argv[]) {
-	return 0;
-}
