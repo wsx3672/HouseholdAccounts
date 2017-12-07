@@ -24,6 +24,7 @@ public:
 	TextComponent* operator[](Long ingex);
 	TextComposite(Long capacity = 10000 );
 	CString MakeCString();
+	CString MakeCString(Long length);
 protected:
 	Array<TextComponent*> textComponents;
 	Long capacity;

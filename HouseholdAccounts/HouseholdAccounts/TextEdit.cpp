@@ -77,7 +77,7 @@ void TextEdit::OnPaint() {
 		TextComponent *textComponent = this->text->GetAt(i);
 		TextComposite *textComposite = textComponent->GetComposite();
 		CString cString = textComposite->MakeCString();
-		dc.TextOut(10  ,i *17 ,cString);
+		dc.TextOut(0  ,i *17 ,cString);
 		i++;
 	}
 	CWnd::OnPaint();
@@ -100,6 +100,9 @@ void TextEdit::OnClose() {
 	}
 	if (this->keyBoard != NULL) {
 		delete this->keyBoard;
+	}
+	if (this->caret != NULL) {
+		delete this->caret;
 	}
 	CWnd::OnClose();
 }

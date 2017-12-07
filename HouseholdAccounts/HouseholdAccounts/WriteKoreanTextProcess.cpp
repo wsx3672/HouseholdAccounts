@@ -33,7 +33,6 @@ void WriteKoreanTextProcess::EndComposition(TextEdit *textEdit, Long bufferLengt
 	textEdit->WritingKoreanState = false;
 	delete[] tempChar;
 }
-
 void WriteKoreanTextProcess::StartComposition(TextEdit *textEdit, Long bufferLength, char(*buffer)) {
 	Long i = 0; //조합 시작할때
 	char(*tempChar) = new char[bufferLength];
@@ -64,7 +63,6 @@ void WriteKoreanTextProcess::DuringComposition(TextEdit *textEdit, Long bufferLe
 		TextComposite *textComposite = textComponent->GetComposite();
 		Long rowLength = textComposite->GetLength();
 		textComposite->Modify(rowLength-1,doubleByteCharacter);
-		textEdit->caret->IncludeDoubleByteCharacter();
 		delete[] tempChar;
 	}
 	else if (bufferLength == 0) {//BackSpace 를 눌렀을 때
@@ -75,7 +73,7 @@ void WriteKoreanTextProcess::DuringComposition(TextEdit *textEdit, Long bufferLe
 		TextComponent *doubleByteCharacter = textComposite->GetAt(rowLength - 1);
 		textComposite->Remove(doubleByteCharacter);
 		textEdit->caret->CreateCaret();
-		textEdit->caret->LeftMovingCaret();
+		textEdit->caret->BackSpaceKeyMovingCaret();
 		textEdit->WritingKoreanState = false;
 	}
 }

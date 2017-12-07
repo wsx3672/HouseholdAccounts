@@ -54,6 +54,32 @@ Long TextComposite::Remove(TextComponent *textComponent) {
 	}
 	return index;
 }
+CString TextComposite::MakeCString(Long length) {
+	char tempChar[1028];
+	Long i = 0;
+	Long j = 0;
+	while (i < length) {
+		TextComponent *textComponent = this->GetAt(i);
+		if (dynamic_cast<SingleByteCharacter*>(textComponent)) {
+			SingleByteCharacter *singleByteCharacter = static_cast<SingleByteCharacter*>(textComponent);
+			char temp = singleByteCharacter->GetCharacter();
+			if (temp != '\n') {
+				tempChar[j] = singleByteCharacter->GetCharacter();
+				j++;
+			}
+		}
+		if (dynamic_cast<DoubleByteCharacter*>(textComponent)) {
+			DoubleByteCharacter *doubleByteCharacter = static_cast<DoubleByteCharacter*>(textComponent);
+			tempChar[j] = doubleByteCharacter->GetCharacter()[0];
+			j++;
+			tempChar[j] = doubleByteCharacter->GetCharacter()[1];
+			j++;
+		}
+		i++;
+	}
+	CString cString(tempChar, j);
+	return cString;
+}
 CString TextComposite::MakeCString() {
 	char tempChar[1028];
 	Long i = 0;

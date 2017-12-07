@@ -5,6 +5,7 @@
 #include "TextComposite.h"
 #include "TextEdit.h"
 #include "SingleByteCharacter.h"
+#include "Caret.h"
 EnterKey::EnterKey() {
 }
 EnterKey::~EnterKey() {
@@ -22,4 +23,8 @@ void EnterKey::Action(TextEdit *textEidt) {
 	textComposite->Add(singleByteCharacter);
 	Row *row = new Row();
 	textEidt->text->Add(row);
+	Long currentRowIndex = textEidt->caret->GetCurrentRowIndex();
+	currentRowIndex++;
+	currentRowIndex = textEidt->caret->SetCurrentRowIndex(currentRowIndex);
+	textEidt->caret->NextRowMovingCaret();
 }

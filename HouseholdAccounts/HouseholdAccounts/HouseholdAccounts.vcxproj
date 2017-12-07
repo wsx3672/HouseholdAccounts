@@ -152,6 +152,7 @@
     <ClInclude Include="KeyAction.h" />
     <ClInclude Include="KeyBoard.h" />
     <ClInclude Include="KoreanEnglishChangeKey.h" />
+    <ClInclude Include="LeftArrowKey.h" />
     <ClInclude Include="Row.h" />
     <ClInclude Include="SingleByteCharacter.h" />
     <ClInclude Include="Text.h" />
@@ -172,6 +173,7 @@
     <ClCompile Include="KeyAction.cpp" />
     <ClCompile Include="KeyBoard.cpp" />
     <ClCompile Include="KoreanEnglishChangeKey.cpp" />
+    <ClCompile Include="LeftArrowKey.cpp" />
     <ClCompile Include="Row.cpp" />
     <ClCompile Include="SingleByteCharacter.cpp" />
     <ClCompile Include="Text.cpp" />

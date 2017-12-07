@@ -8,6 +8,6 @@ public:
 	Character();
 	virtual ~Character() ;
 	Character(const Character& source);
-
+	Long CheckingSingleAndDouble();
 };
 #endif // !_CHARACTER_H
