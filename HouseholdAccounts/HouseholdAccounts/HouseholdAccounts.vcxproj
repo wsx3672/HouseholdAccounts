@@ -146,6 +146,7 @@
     <ClInclude Include="Caret.h" />
     <ClInclude Include="Character.h" />
     <ClInclude Include="DoubleByteCharacter.h" />
+    <ClInclude Include="DownArrowKey.h" />
     <ClInclude Include="EnterKey.h" />
     <ClInclude Include="HouseholdAccountsApp.h" />
     <ClInclude Include="HouseholdAccountsForm.h" />
@@ -153,12 +154,14 @@
     <ClInclude Include="KeyBoard.h" />
     <ClInclude Include="KoreanEnglishChangeKey.h" />
     <ClInclude Include="LeftArrowKey.h" />
+    <ClInclude Include="RightArrowKey.h" />
     <ClInclude Include="Row.h" />
     <ClInclude Include="SingleByteCharacter.h" />
     <ClInclude Include="Text.h" />
     <ClInclude Include="TextComponent.h" />
     <ClInclude Include="TextComposite.h" />
     <ClInclude Include="TextEdit.h" />
+    <ClInclude Include="UpArrowKey.h" />
     <ClInclude Include="WriteKoreanTextProcess.h" />
     <ClInclude Include="WritingKorean.h" />
   </ItemGroup>
@@ -167,6 +170,7 @@
     <ClCompile Include="Caret.cpp" />
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="DoubleByteCharacter.cpp" />
+    <ClCompile Include="DownArrowKey.cpp" />
     <ClCompile Include="EnterKey.cpp" />
     <ClCompile Include="HouseholdAccountsApp.cpp" />
     <ClCompile Include="HouseholdAccountsForm.cpp" />
@@ -174,12 +178,14 @@
     <ClCompile Include="KeyBoard.cpp" />
     <ClCompile Include="KoreanEnglishChangeKey.cpp" />
     <ClCompile Include="LeftArrowKey.cpp" />
+    <ClCompile Include="RightArrowKey.cpp" />
     <ClCompile Include="Row.cpp" />
     <ClCompile Include="SingleByteCharacter.cpp" />
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="TextComponent.cpp" />
     <ClCompile Include="TextComposite.cpp" />
     <ClCompile Include="TextEdit.cpp" />
+    <ClCompile Include="UpArrowKey.cpp" />
     <ClCompile Include="WriteKoreanTextProcess.cpp" />
     <ClCompile Include="WritingKorean.cpp" />
   </ItemGroup>

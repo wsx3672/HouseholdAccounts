@@ -19,6 +19,9 @@ public:
 	void NextRowMovingCaret();
 	void PreviousRowMovingCaret();
 	void LeftArrowKeyMovingCaret();
+	void RightArrowKeyMovingCaret();
+	void UpArrowKeyMovingCaret();
+	void DownArrowKeyMovingCaret();
 	Long GetCurrentX() const;
 	Long GetCurrentY() const;
 	Long GetCurrentRowIndex() const;

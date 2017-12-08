@@ -75,6 +75,15 @@
     <ClInclude Include="LeftArrowKey.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="RightArrowKey.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="UpArrowKey.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="DownArrowKey.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HouseholdAccountsApp.cpp">
@@ -132,6 +141,15 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="LeftArrowKey.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="RightArrowKey.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="UpArrowKey.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="DownArrowKey.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
