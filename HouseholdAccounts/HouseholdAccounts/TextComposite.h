@@ -17,7 +17,7 @@ public:
 	virtual Long Add(TextComponent *textComponent);
 	virtual Long Remove(TextComponent *textComponent);
 	virtual Long Modify(Long index, TextComponent *textComponent);
-
+	virtual Long Insert(Long index, TextComponent *textComponent);
 	Long GetCapacity();
 	Long GetLength();
 	TextComponent* GetAt(Long index);

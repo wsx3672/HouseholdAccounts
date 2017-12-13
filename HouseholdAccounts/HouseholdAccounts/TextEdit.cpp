@@ -39,10 +39,21 @@ void TextEdit::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 void TextEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
 	char nChar1 = nChar;
 	if (this->keyDownCheck < 0 && this->WritingKoreanState == false) {
-		Long length = this->text->GetLength();
-		TextComponent *textComponent = this->text->GetAt(length - 1);
 		SingleByteCharacter *singleByteCharacter = new SingleByteCharacter(nChar1);
-		textComponent->Add(static_cast<Character*>(singleByteCharacter));
+		Long currentRowIndex = this->caret->GetCurrentRowIndex();
+		TextComponent *textComponent = this->text->GetAt(currentRowIndex - 1);
+		TextComposite *textComposite = textComponent->GetComposite();
+		Long rowLegnth = textComposite->GetLength();
+		Long position;
+		Long characterIndex = this->caret->GetCharacterIndex();
+		if (rowLegnth == characterIndex) {
+			position = textComponent->Add(singleByteCharacter);
+			this->caret->SetCharacterIndex(position);
+		}
+		else {
+		    position = textComponent->Insert(characterIndex , singleByteCharacter);
+			this->caret->SetCharacterIndex(position +1);
+		}
 		this->caret->CreateCaret();
 		this->caret->RightMovingCaret();
 	}

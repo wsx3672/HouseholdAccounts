@@ -12,6 +12,7 @@ public:
 	TextComponent& operator= (const TextComponent& source);
 
 	virtual Long Add(TextComponent *textComponent);
+	virtual Long Insert(Long index,TextComponent *textComponent);
 	virtual Long Remove(TextComponent *textComponent);
 	virtual TextComposite* GetComposite();
 

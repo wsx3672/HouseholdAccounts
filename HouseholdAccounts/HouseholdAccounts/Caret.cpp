@@ -34,19 +34,25 @@ void Caret::ChangeCaretWidth() {
 	this->textEdit->CreateSolidCaret(2, 17);
 }
 void Caret::RightMovingCaret() {
-	Long length = this->textEdit->text->GetLength();
 	CClientDC  dc(this->textEdit);
 	CSize size;
 	CFont font;
+	CString cString;
 	this->FontSetting(&font);
 	dc.SelectObject(font);
-	TextComponent *textComponent = this->textEdit->text->GetAt(length - 1);
-	CString cString = static_cast<Row*>(textComponent)->MakeCString();
+	TextComponent *textComponent = this->textEdit->text->GetAt(this->currentRowIndex - 1);
+	TextComposite *textComposite = textComponent->GetComposite();
+	Long rowLength = textComposite->GetLength();
+	if (rowLength == this->characterIndex) {
+		cString = textComposite->MakeCString();
+	}
+	else {
+		cString = textComposite->MakeCString(this->characterIndex);
+	}
 	size = dc.GetTextExtent(cString);
 	this->currentX = size.cx ;
 	CPoint cPoint(this->currentX, this->currentY);
 	this->textEdit->SetCaretPos(cPoint);
-	this->characterIndex++;
 }
 Long Caret::SetCharacterIndex(Long characterIndex) {
 	this->characterIndex = characterIndex;
@@ -111,7 +117,7 @@ void Caret::LeftArrowKeyMovingCaret() {
 		TextComponent *textComponent = this->textEdit->text->GetAt(currentRowIndex - 1);
 		TextComposite *textComposite = textComponent->GetComposite();
 		Long tempCharacterIndex = textComposite->GetLength();
-		this->characterIndex = tempCharacterIndex-1 ;
+		this->characterIndex = tempCharacterIndex-1;
 		this->PreviousRowMovingCaret();
 	}
 
@@ -195,7 +201,7 @@ void Caret::UpArrowKeyMovingCaret() {
 	TextComponent *currentComponent = 0;
 	TextComposite *upComposite = 0;
 	TextComponent *upComponent = 0;
-	bool ret = false;;
+	bool ret = false;
 	this->FontSetting(&font);
 	dc.SelectObject(font);
 	currentComponent = this->textEdit->text->GetAt(this->currentRowIndex - 1);
@@ -236,6 +242,15 @@ void Caret::UpArrowKeyMovingCaret() {
 	}
 	else if (ret == false){
 		this->characterIndex = upComposite->GetLength();
+		Character *character = static_cast<Character*>(upComposite->GetAt(upComposite->GetLength() - 1));
+		Long ret = character->CheckingSingleAndDouble();
+		char temp = ' ';
+		if (ret == 0) {
+			temp = static_cast<SingleByteCharacter*>(character)->GetCharacter();
+		}
+		if (temp == '\n') {
+			this->characterIndex--;
+		}
 		this->currentX = upSize.cx;
 		this->currentY -= 17;
 	}
@@ -292,7 +307,16 @@ void Caret::DownArrowKeyMovingCaret() {
 		}
 	}
 	else if (ret == false) {
-		this->characterIndex = downComposite->GetLength() ;
+		Character *character = static_cast<Character*>(downComposite->GetAt(downComposite->GetLength() - 1));
+		Long ret = character->CheckingSingleAndDouble();
+		char temp = ' ';
+		if (ret == 0) {
+			temp = static_cast<SingleByteCharacter*>(character)->GetCharacter();
+		}
+		this->characterIndex = downComposite->GetLength();
+		if (temp == '\n') {
+			this->characterIndex--;
+		}
 		this->currentX = downSize.cx;
 		this->currentY += 17;
 	}

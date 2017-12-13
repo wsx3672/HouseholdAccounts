@@ -18,3 +18,6 @@ Long TextComponent::Add(TextComponent *textComponent) {
 Long TextComponent::Remove(TextComponent *textComponent) {
 	return 0;
 }
+Long TextComponent::Insert(Long index, TextComponent *textComponent) {
+	return -1;
+}

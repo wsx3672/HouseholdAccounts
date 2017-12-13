@@ -106,3 +106,9 @@ CString TextComposite::MakeCString() {
 	CString cString(tempChar, j);
 	return cString;
 }
+Long TextComposite::Insert(Long index, TextComponent *textComponent) {
+	Long position = this->textComponents.Insert(index , textComponent);
+	this->length++;
+	this->capacity++;
+	return position;
+}
