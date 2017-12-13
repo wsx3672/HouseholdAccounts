@@ -25,11 +25,11 @@ void WriteKoreanTextProcess::EndComposition(TextEdit *textEdit, Long bufferLengt
 		i++;
 	}
 	DoubleByteCharacter *doubleByteCharacter =  new DoubleByteCharacter(tempChar);
-	Long length = textEdit->text->GetLength();
-	TextComponent *textComponent = textEdit->text->GetAt(length-1);
+	Long currentRowIndex = textEdit->caret->GetCurrentRowIndex();
+	TextComponent *textComponent = textEdit->text->GetAt(currentRowIndex -1);
 	TextComposite *textComposite = textComponent->GetComposite();
-	Long rowLength = textComposite->GetLength();
-	textComposite->Modify(rowLength - 1, doubleByteCharacter);
+	Long characterIndex = textEdit->caret->GetCharacterIndex();
+	textComposite->Modify(characterIndex - 1, doubleByteCharacter);
 	textEdit->WritingKoreanState = false;
 	delete[] tempChar;
 }
@@ -41,10 +41,20 @@ void WriteKoreanTextProcess::StartComposition(TextEdit *textEdit, Long bufferLen
 		i++;
 	}
 	DoubleByteCharacter *doubleByteCharacter = new DoubleByteCharacter(tempChar);
-	Long length = textEdit->text->GetLength();
-	TextComponent *textComponent = textEdit->text->GetAt(length-1);
+	Long currentRowIndex = textEdit->caret->GetCurrentRowIndex();
+	TextComponent *textComponent = textEdit->text->GetAt(currentRowIndex -1);
 	TextComposite *textComposite = textComponent->GetComposite();
-	textComposite->Add(doubleByteCharacter);
+	Long rowLegnth = textComposite->GetLength();
+	Long position;
+	Long characterIndex = textEdit->caret->GetCharacterIndex();
+	if (rowLegnth == characterIndex) {
+		position = textComposite->Add(doubleByteCharacter);
+		textEdit->caret->SetCharacterIndex(position);
+	}
+	else {
+		position = textComposite->Insert(characterIndex, doubleByteCharacter);
+		textEdit->caret->SetCharacterIndex(position + 1);
+	}
 	textEdit->WritingKoreanState = true;
 	delete[] tempChar;
 }
@@ -58,19 +68,19 @@ void WriteKoreanTextProcess::DuringComposition(TextEdit *textEdit, Long bufferLe
 			i++;
 		}
 		DoubleByteCharacter *doubleByteCharacter = new DoubleByteCharacter(tempChar);
-		Long length = textEdit->text->GetLength();
-		TextComponent *textComponent = textEdit->text->GetAt(length - 1);
+		Long currentRowIndex = textEdit->caret->GetCurrentRowIndex();
+		TextComponent *textComponent = textEdit->text->GetAt(currentRowIndex - 1);
 		TextComposite *textComposite = textComponent->GetComposite();
-		Long rowLength = textComposite->GetLength();
-		textComposite->Modify(rowLength-1,doubleByteCharacter);
+		Long characterIndex = textEdit->caret->GetCharacterIndex();
+		textComposite->Modify(characterIndex -1,doubleByteCharacter);
 		delete[] tempChar;
 	}
 	else if (bufferLength == 0) {//BackSpace ¸¦ ´­·¶À» ¶§
-		Long length = textEdit->text->GetLength();
-		TextComponent *textComponent = textEdit->text->GetAt(length - 1);
-		TextComposite *textComposite = textComponent->GetComposite();
-		Long rowLength = textComposite->GetLength();
-		TextComponent *doubleByteCharacter = textComposite->GetAt(rowLength - 1);
+		Long currentRowIndex = textEdit->caret->GetCurrentRowIndex();
+		TextComponent *textComponent = textEdit->text->GetAt(currentRowIndex - 1);
+		TextComposite *textComposite = textComponent->GetComposite();		
+		Long characterIndex = textEdit->caret->GetCharacterIndex();
+		TextComponent *doubleByteCharacter = textComposite->GetAt(characterIndex - 1);
 		textComposite->Remove(doubleByteCharacter);
 		textEdit->caret->CreateCaret();
 		textEdit->caret->BackSpaceKeyMovingCaret();

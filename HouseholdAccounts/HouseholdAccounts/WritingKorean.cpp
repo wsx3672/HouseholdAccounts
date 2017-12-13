@@ -20,19 +20,19 @@ void WritingKorean::WritingHanguel(WPARAM wParam, LPARAM lParam, HIMC hIMC, Text
 		bufferLength = ImmGetCompositionString(hIMC, GCS_RESULTSTR, NULL, 0);
 		ImmGetCompositionString(hIMC, GCS_RESULTSTR, buffer, bufferLength);
 		writeKoreanTextProcess.EndComposition(textEdit, bufferLength, buffer);
-		textEdit->caret->RightMovingCaret(); //여기서 characterIndex가 증가되기 때문에 감소시켜야함
-		Long characterIndex = textEdit->caret->GetCharacterIndex();
-		characterIndex--;
-		characterIndex = textEdit->caret->SetCharacterIndex(characterIndex);
+		textEdit->caret->RightMovingCaret(); 
+		//Long characterIndex = textEdit->caret->GetCharacterIndex();
+		//characterIndex--;
+		//characterIndex = textEdit->caret->SetCharacterIndex(characterIndex);
 	}
 	else if (lParam & GCS_COMPSTR) { 
 		bufferLength = ImmGetCompositionString(hIMC, GCS_COMPSTR, NULL, 0);
 		ImmGetCompositionString(hIMC, GCS_COMPSTR, buffer, bufferLength);
 		if (textEdit->WritingKoreanState == false) { //조합 시작일때 
-			writeKoreanTextProcess.StartComposition(textEdit, bufferLength, buffer);
-			Long characterIndex = textEdit->caret->GetCharacterIndex();
-			characterIndex++;
-			characterIndex = textEdit->caret->SetCharacterIndex(characterIndex);
+			writeKoreanTextProcess.StartComposition(textEdit, bufferLength, buffer); 
+			//Long characterIndex = textEdit->caret->GetCharacterIndex();
+			//characterIndex++;
+			//characterIndex = textEdit->caret->SetCharacterIndex(characterIndex);
 		}
 		else {
 			//조합중일때

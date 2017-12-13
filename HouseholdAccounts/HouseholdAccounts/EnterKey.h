@@ -9,6 +9,6 @@ public:
 	EnterKey(const EnterKey& source);
 
 	EnterKey& operator= (const EnterKey& source);
-	virtual void Action(TextEdit *textEidt);
+	virtual void Action(TextEdit *textEdit);
 };
 #endif // !_ENTERKEY_H

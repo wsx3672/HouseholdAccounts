@@ -4,6 +4,8 @@
 #include "TextComponent.h"
 #include "TextComposite.h"
 #include "TextEdit.h"
+#include "Character.h"
+#include "SingleByteCharacter.h"
 #include "Caret.h"
 BackSpaceKey::BackSpaceKey() {
 }
@@ -15,26 +17,38 @@ BackSpaceKey& BackSpaceKey::operator=(const BackSpaceKey& source) {
 	return *this;
 }	
 void BackSpaceKey::Action(TextEdit *textEdit) {
-	Long length = textEdit->text->GetLength();
-	TextComposite *textComposite = static_cast<TextComposite*>(textEdit->text->GetAt(length - 1));
-	Long rowLength = textComposite->GetLength();
+	Long currentRowIndex = textEdit->caret->GetCurrentRowIndex();
+	TextComposite *textComposite = static_cast<TextComposite*>(textEdit->text->GetAt(currentRowIndex - 1));
+	Long chacracterIndex = textEdit->caret->GetCharacterIndex();
 	TextComponent *textComponent = 0;
-	if (rowLength == 0 && length != 1) {
+	Long ret = -1;
+	Long i = 0;
+	Long rowLength = textComposite->GetLength();
+	if (chacracterIndex == 0 && currentRowIndex != 1 ) {
+		TextComposite *upTextComposite = static_cast<TextComposite*>(textEdit->text->GetAt(currentRowIndex - 2));
+		Long upRowLength = upTextComposite->GetLength();
+		Character *character = static_cast<Character*>(upTextComposite->GetAt(upTextComposite->GetLength() - 1));
+		 ret = character->CheckingSingleAndDouble();
+		if (ret == 0) {
+			char temp = static_cast<SingleByteCharacter*>(character)->GetCharacter();
+			if (temp == '\n') {
+				upTextComposite->Remove(character);
+				 i = 0;
+				while (i < rowLength) {
+					textComponent = textComposite->GetAt(i);
+					upTextComposite->Add(textComponent);
+					i++;
+				}
+			}
+		}
 		textEdit->text->Remove(textComposite);
-		Long currentRowIndex = textEdit->caret->GetCurrentRowIndex();
 		currentRowIndex--;
 		textEdit->caret->SetCurrentRowIndex(currentRowIndex);
+		chacracterIndex = textEdit->caret->SetCharacterIndex(upRowLength - 1);
 		textEdit->caret->PreviousRowMovingCaret();
-		length = textEdit->text->GetLength();
-		textComposite = static_cast<TextComposite*>(textEdit->text->GetAt(length - 1));
-		rowLength = textComposite->GetLength();
-		textEdit->caret->SetCharacterIndex(rowLength);
-
 	}
-	if (rowLength != 0) {
-		textComponent = textComposite->GetAt(rowLength - 1);
-	}
-	if (textComponent != 0) {
+	if (ret == -1 && chacracterIndex != 0 ) {
+		textComponent = textComposite->GetAt(chacracterIndex - 1);
 		textComposite->Remove(textComponent);
 		textEdit->caret->BackSpaceKeyMovingCaret();
 	}

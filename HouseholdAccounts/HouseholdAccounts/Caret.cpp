@@ -59,15 +59,14 @@ Long Caret::SetCharacterIndex(Long characterIndex) {
 	return this->characterIndex;
 }
 void Caret::BackSpaceKeyMovingCaret() {
-	Long length = this->textEdit->text->GetLength();
 	CClientDC  dc(this->textEdit);
 	CSize size;
 	CFont font;
 	this->FontSetting(&font);
 	dc.SelectObject(font);
-	TextComponent *textComponent = this->textEdit->text->GetAt(length - 1);
+	TextComponent *textComponent = this->textEdit->text->GetAt(this->currentRowIndex - 1);
 	TextComposite *textComposite = textComponent->GetComposite();
-	CString cString = textComposite->MakeCString();
+	CString cString = textComposite->MakeCString(this->characterIndex-1);
 	size = dc.GetTextExtent(cString);
 	this->currentX = size.cx ;
 	this->CreateCaret();
@@ -123,16 +122,14 @@ void Caret::LeftArrowKeyMovingCaret() {
 
 }
 void Caret::IncludeDoubleByteCharacter() {
-	Long length = this->textEdit->text->GetLength();
 	CClientDC  dc(this->textEdit);
 	CSize size;
 	CFont font;
 	this->FontSetting(&font);
 	dc.SelectObject(font);
-	TextComponent *textComponent = this->textEdit->text->GetAt(length - 1);
+	TextComponent *textComponent = this->textEdit->text->GetAt(this->currentRowIndex - 1);
 	TextComposite *textComposite = textComponent->GetComposite();
-	Long rowLenght = textComposite->GetLength();
-	DoubleByteCharacter *doubleByteCharacter = static_cast<DoubleByteCharacter*>(textComposite->GetAt(rowLenght - 1));
+	DoubleByteCharacter *doubleByteCharacter = static_cast<DoubleByteCharacter*>(textComposite->GetAt(this->characterIndex - 1));
 	char *temps = doubleByteCharacter->GetCharacter();
 	temps[2] = '\0';
 	size = dc.GetTextExtent(temps);
@@ -267,7 +264,7 @@ void Caret::DownArrowKeyMovingCaret() {
 	TextComponent *currentComponent = 0;
 	TextComposite *downComposite = 0;
 	TextComponent *downComponent = 0;
-	bool ret = false;;
+	bool ret = false;
 	this->FontSetting(&font);
 	dc.SelectObject(font);
 	currentComponent = this->textEdit->text->GetAt(this->currentRowIndex - 1);
@@ -305,10 +302,20 @@ void Caret::DownArrowKeyMovingCaret() {
 			this->currentX = size.cx;
 			this->currentY += 17;
 		}
+		if (downRowLength == 0 && ret == false) {
+			this->characterIndex = 0;
+			this->currentX = 0;
+			this->currentY += 17;
+		}
 	}
-	else if (ret == false) {
-		Character *character = static_cast<Character*>(downComposite->GetAt(downComposite->GetLength() - 1));
-		Long ret = character->CheckingSingleAndDouble();
+	else if (ret == false ) {
+		Long downCompositeLength = downComposite->GetLength();
+		Character *character = 0;
+		Long ret = -1;
+		if (downCompositeLength != 0) {
+			character = static_cast<Character*>(downComposite->GetAt(downComposite->GetLength() - 1));
+			ret = character->CheckingSingleAndDouble();
+		}
 		char temp = ' ';
 		if (ret == 0) {
 			temp = static_cast<SingleByteCharacter*>(character)->GetCharacter();
@@ -336,7 +343,7 @@ void Caret::PreviousRowMovingCaret() {
 	dc.SelectObject(font);
 	TextComponent *textComponent = this->textEdit->text->GetAt(this->currentRowIndex - 1);
 	TextComposite *textComposite = textComponent->GetComposite();
-	CString cString = textComposite->MakeCString();
+	CString cString = textComposite->MakeCString(this->characterIndex);
 	size = dc.GetTextExtent(cString);
 	this->currentX = size.cx;
 	this->currentY -= 17;

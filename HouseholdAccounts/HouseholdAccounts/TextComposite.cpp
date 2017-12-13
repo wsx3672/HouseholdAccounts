@@ -47,10 +47,9 @@ Long TextComposite::Remove(TextComponent *textComponent) {
 		i++;
 	}
 	if (i < this->length) {
-		this->textComponents.Delete(i);
+		index = this->textComponents.Delete(i);
 		this->capacity--;
 		this->length--;
-		index = -1;
 	}
 	return index;
 }
