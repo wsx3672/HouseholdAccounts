@@ -36,6 +36,26 @@ TextComponent* Text::GetAt(Long index) {
 TextComponent* Text::operator[](Long index) {
 	return this->textComponents[index];
 }
+Long Text::Add(TextComponent *textComponent) {
+	Long position = TextComposite::Add(textComponent);
+	return position;
+}
+Long Text::Remove(TextComponent *textComponent) {
+	Long position = TextComposite::Remove(textComponent);
+	return position;
+}
+Long Text::Remove(Long index) {
+	Long position = TextComposite::Remove(index);
+	return position;
+}
+Long Text::Modify(Long index, TextComponent *textComponent) {
+	Long position = TextComposite::Modify(index, textComponent);
+	return position;
+}
+Long Text::Insert(Long index, TextComponent *textComponent) {
+	Long position = TextComposite::Insert(index, textComponent);
+	return position;
+}
 /*
 int main(int agrc, char *argv[]) {
 	return 0;

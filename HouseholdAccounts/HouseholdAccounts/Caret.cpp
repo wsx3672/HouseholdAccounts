@@ -349,6 +349,51 @@ void Caret::PreviousRowMovingCaret() {
 	this->currentY -= 17;
 	this->CreateCaret();
 }
+void Caret::HomeKeyMovingCaret() {
+	this->currentX = 0;
+	this->characterIndex = 0;
+	this->CreateCaret();
+}
+void Caret::EndKeyMovingCaret() {
+	CClientDC  dc(this->textEdit);
+	CSize size;
+	CFont font;
+	this->FontSetting(&font);
+	dc.SelectObject(font);
+	TextComponent *textComponent = this->textEdit->text->GetAt(this->currentRowIndex - 1);
+	TextComposite *textComposite = textComponent->GetComposite();
+	Long length = textComposite->GetLength();
+	CString cString = textComposite->MakeCString();
+	size = dc.GetTextExtent(cString);
+	this->currentX = size.cx;
+	this->characterIndex = length;
+	this->CreateCaret();
+}
+void Caret::ShiftAndLeftArrowCaretMoving(TextComponent *textComponent) {
+	CClientDC  dc(this->textEdit);
+	CSize size;
+	CFont font;
+	CString cString;
+	textEdit->caret->FontSetting(&font);
+	dc.SelectObject(font);
+	Character *character = static_cast<Character*>(textComponent);
+	Long ret = character->CheckingSingleAndDouble();
+	char temp;
+	char *temps;
+	if (ret == 0) {
+		temp = static_cast<SingleByteCharacter*>(character)->GetCharacter();
+		size = dc.GetTextExtent(temp);
+	}
+	else {
+		temps = static_cast<DoubleByteCharacter*>(character)->GetCharacter();
+		temps[2] = '\0';
+		size = dc.GetTextExtent(temps);
+	}
+	Long width = size.cx;
+	this->currentX -= width;
+	this->characterIndex--;
+	textEdit->caret->CreateCaret(width, 17);
+}
 void Caret::FontSetting(CFont *font) {
 	font->CreateFont(17, 0, 0, 0, FW_NORMAL, FALSE, FALSE, 0, DEFAULT_CHARSET,
 		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, "∞ÌµÒ√º");

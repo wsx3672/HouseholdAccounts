@@ -7,6 +7,13 @@
 #include "RightArrowKey.h"
 #include "UpArrowKey.h"
 #include "DownArrowKey.h"
+#include "HomeKey.h"
+#include "EndKey.h"
+#include "DeleteKey.h"
+#include "ShiftAndLeftArrowKey.h"
+#include "SelectedBackSpaceKey.h"
+#include "TextEdit.h"
+#include "TextAreaSelected.h"
 KeyBoard::KeyBoard() {
 	this->keyAction = 0;
 }
@@ -24,16 +31,31 @@ KeyAction* KeyBoard::Action(TextEdit *textEdit, UINT nChar, UINT nRepCnt, UINT n
 		delete this->keyAction;
 		this->keyAction = 0;
 	}
+	Long selectedLength = textEdit->textAreaSelected->GetLength();
 	switch (nChar)
 	{
 	case VK_RETURN:this->keyAction = new EnterKey; break;
-	case VK_BACK:this->keyAction = new BackSpaceKey; break;
+	case VK_BACK:
+		if (selectedLength > 0) {
+			this->keyAction = new SelectedBackSpaceKey; break;
+		}
+		else {
+			this->keyAction = new BackSpaceKey; break;
+		}
 	case 229:this->keyAction = new KoreanEnglishChangeKey; break; //ÇÑ¿µÅ°
-	case VK_LEFT:this->keyAction = new LeftArrowKey; break;
+	case VK_LEFT:
+		if (nFlags && GetKeyState(VK_SHIFT) >= 0) {
+			this->keyAction = new LeftArrowKey; break;
+		}
+		else {
+			this->keyAction = new ShiftAndLeftArrowKey; break;
+		}
 	case VK_RIGHT:this->keyAction = new RightArrowKey; break;
 	case VK_UP:this->keyAction = new UpArrowKey; break;
 	case VK_DOWN:this->keyAction = new DownArrowKey; break;
-
+	case VK_HOME:this->keyAction = new HomeKey; break;
+	case VK_END:this->keyAction = new EndKey; break;
+	case VK_DELETE:this->keyAction = new DeleteKey; break;
 	default: break;
 	}
 	return this->keyAction;

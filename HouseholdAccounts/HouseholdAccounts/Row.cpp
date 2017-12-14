@@ -18,6 +18,27 @@ Row& Row::operator=(const Row& source) {
 	return *this;
 }
 Long Row::Add(TextComponent *textComponent) {
+	Long position = TextComposite::Add(textComponent);
+	return position;
+}
+Long Row::Remove(TextComponent *textComponent) {
+	Long position = TextComposite::Remove(textComponent);
+	return position;
+}
+Long Row::Remove(Long index) {
+	Long position = TextComposite::Remove(index);
+	return position;
+}
+Long Row::Modify(Long index, TextComponent *textComponent) {
+	Long position = TextComposite::Modify(index, textComponent);
+	return position;
+}
+Long Row::Insert(Long index, TextComponent *textComponent) {
+	Long position = TextComposite::Insert(index, textComponent);
+	return position;
+}
+/*
+Long Row::Add(TextComponent *textComponent) {
 	if (this->length < this->capacity) {
 		this->textComponents.Store(this->length, textComponent);
 	}
@@ -28,6 +49,7 @@ Long Row::Add(TextComponent *textComponent) {
 	this->length++;
 	return this->length;
 }
+*/
 TextComponent* Row::GetAt(Long index) {
 	return this->textComponents.GetAt(index);
 }

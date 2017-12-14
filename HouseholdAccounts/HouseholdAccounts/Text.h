@@ -12,6 +12,11 @@ public:
 	Text(const Text& source);
 	Text& operator= (const Text& source);
 
+	virtual Long Add(TextComponent *textComponent);
+	virtual Long Remove(TextComponent *textComponent);
+	virtual Long Remove(Long index);
+	virtual Long Modify(Long index, TextComponent *textComponent);
+	virtual Long Insert(Long index, TextComponent *textComponent);
 	Long Add(Row *row);
 	TextComponent* GetAt(Long index);
 	TextComponent* operator[](Long index);

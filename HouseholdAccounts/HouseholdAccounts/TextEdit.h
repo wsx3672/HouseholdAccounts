@@ -8,6 +8,7 @@ class HouseholdAccountsForm;
 class Text;
 class KeyBoard;
 class Caret;
+class TextAreaSelected;
 class TextEdit : public CWnd {
 public:
 	TextEdit(HouseholdAccountsForm *householdAccountsForm);
@@ -24,8 +25,9 @@ private:
 	HouseholdAccountsForm *householdAccountsForm;
 public:
 	Text *text;
-	KeyBoard *keyBoard;
+	KeyBoard *keyBoard;	
 	Caret *caret;
+	TextAreaSelected *textAreaSelected;
 	bool WritingKoreanState;
 	Long keyDownCheck;
 };

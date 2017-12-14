@@ -3,6 +3,7 @@
 typedef signed long int Long;
 class TextEdit;
 class CFont;
+class TextComponent;
 typedef signed long int Long;
 class Caret {
 public:
@@ -22,6 +23,9 @@ public:
 	void RightArrowKeyMovingCaret();
 	void UpArrowKeyMovingCaret();
 	void DownArrowKeyMovingCaret();
+	void HomeKeyMovingCaret();
+	void EndKeyMovingCaret();
+	void ShiftAndLeftArrowCaretMoving(TextComponent *textComponent);
 	Long GetCurrentX() const;
 	Long GetCurrentY() const;
 	Long GetCurrentRowIndex() const;

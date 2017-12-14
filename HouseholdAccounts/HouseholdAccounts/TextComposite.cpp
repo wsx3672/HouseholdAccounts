@@ -53,6 +53,13 @@ Long TextComposite::Remove(TextComponent *textComponent) {
 	}
 	return index;
 }
+Long TextComposite::Remove(Long index) {
+	Long position = 0;
+	if (this->textComponents.GetAt(index) != 0) {
+		position = this->textComponents.Delete(index);
+	}
+	return position;
+}
 CString TextComposite::MakeCString(Long length) {
 	char tempChar[1028];
 	Long i = 0;

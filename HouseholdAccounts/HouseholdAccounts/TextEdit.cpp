@@ -8,6 +8,7 @@
 #include "WritingKorean.h"
 #include "DoubleByteCharacter.h"
 #include "KeyAction.h"
+#include "TextAreaSelected.h"
 #include "Caret.h"
 #include <cstring>
 using namespace std;
@@ -25,6 +26,7 @@ TextEdit::TextEdit(HouseholdAccountsForm *householdAccountsForm) {
 	this->keyBoard = NULL;
 	this->text = NULL;
 	this->caret = NULL;
+	this->textAreaSelected = NULL;
 	this->keyDownCheck = -1;
 	this->WritingKoreanState = false;
 }
@@ -35,6 +37,7 @@ void TextEdit::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 		this->keyDownCheck = 1;
 		keyAction->Action(this);
 	}
+	this->Invalidate();
 }
 void TextEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
 	char nChar1 = nChar;
@@ -102,6 +105,7 @@ int TextEdit::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	this->text->Add(row);
 	this->keyBoard = new KeyBoard();
 	this->caret = new Caret(this);
+	this->textAreaSelected = new TextAreaSelected();
 	this->caret->CreateCaret();
 	return 0;
 }
@@ -114,6 +118,9 @@ void TextEdit::OnClose() {
 	}
 	if (this->caret != NULL) {
 		delete this->caret;
+	}
+	if (this->textAreaSelected != NULL) {
+		delete this->textAreaSelected;
 	}
 	CWnd::OnClose();
 }
