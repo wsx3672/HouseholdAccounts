@@ -16,6 +16,10 @@ ShiftAndLeftArrowKey& ShiftAndLeftArrowKey::operator=(const ShiftAndLeftArrowKey
 	return *this;
 }
 void ShiftAndLeftArrowKey::Action(TextEdit *textEdit) {
+	if (textEdit->selectedArea == false) {
+		textEdit->textAreaSelected->Setting(textEdit->caret);
+		textEdit->selectedArea = true;
+	}
 	Long currentRowIndex = textEdit->caret->GetCurrentRowIndex();
 	TextComponent *textComponent = textEdit->text->GetAt(currentRowIndex - 1);
 	TextComposite *textComposite = textComponent->GetComposite();

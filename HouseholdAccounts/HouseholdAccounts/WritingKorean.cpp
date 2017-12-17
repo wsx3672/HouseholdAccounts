@@ -28,7 +28,7 @@ void WritingKorean::WritingHanguel(WPARAM wParam, LPARAM lParam, HIMC hIMC, Text
 	else if (lParam & GCS_COMPSTR) { 
 		bufferLength = ImmGetCompositionString(hIMC, GCS_COMPSTR, NULL, 0);
 		ImmGetCompositionString(hIMC, GCS_COMPSTR, buffer, bufferLength);
-		if (textEdit->WritingKoreanState == false) { //조합 시작일때 
+		if (textEdit->writingKoreanState == false) { //조합 시작일때 
 			writeKoreanTextProcess.StartComposition(textEdit, bufferLength, buffer); 
 			//Long characterIndex = textEdit->caret->GetCharacterIndex();
 			//characterIndex++;

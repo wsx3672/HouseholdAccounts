@@ -1,7 +1,24 @@
 #include "TextAreaSelected.h"
+#include "TextEdit.h"
+#include "Character.h"
+#include "SingleByteCharacter.h"
+#include "Caret.h"
+#include "Text.h"
+#include "DoubleByteCharacter.h"
+#include <afxwin.h>
 TextAreaSelected::TextAreaSelected(Long capacity) : TextComposite(capacity){
 	this->length = 0;
 	this->capacity = capacity;
+	this->startRowIndex = -1;
+	this->startCharacterIndex = -1;
+	this->startX = -1;
+	this->startY = -1;
+}
+void TextAreaSelected::Setting(Caret *caret) {
+	this->startRowIndex = caret->GetCurrentRowIndex();
+	this->startCharacterIndex = caret->GetCharacterIndex();
+	this->startX = caret->GetCurrentX();
+	this->startY = caret->GetCurrentY();
 }
 TextAreaSelected::TextAreaSelected(const TextAreaSelected& source): TextComposite(source) {
 	this->length = source.length;
@@ -35,19 +52,43 @@ Long TextAreaSelected::Insert(Long index, TextComponent *textComponent) {
 	Long position = TextComposite::Insert(index, textComponent);
 	return position;
 }
-/*
-Long TextAreaSelected::Add(TextComponent *textComponent) {
-	if (this->length < this->capacity) {
-		this->textComponents.Store(this->length, textComponent);
+void TextAreaSelected::SelectedTextArea(TextEdit *textEdit, CDC *pDC) {
+	CString cString;
+	CSize size;
+	Long length = textEdit->textAreaSelected->GetLength();
+	Long i = 0;
+	Long ret;
+	Long currentX = textEdit->caret->GetCurrentX();
+	Long currentY = textEdit->caret->GetCurrentY();
+	char temp;
+	char *temps;
+	pDC->SetTextColor(RGB(255, 255, 255));
+	pDC->SetBkColor(RGB(51, 153, 255));
+	pDC->SetBkMode(OPAQUE);//텍스트 배경을 SetBkColor 사용
+	while (i < length) {
+		Character *character = static_cast<Character*>(textEdit->textAreaSelected->GetAt(i));
+		ret = character->CheckingSingleAndDouble();
+		if (ret == 0) {
+			temp = static_cast<SingleByteCharacter*>(character)->GetCharacter();
+			cString = temp;
+			size = pDC->GetTextExtent(temp);
+		}
+		else {
+			temps = static_cast<DoubleByteCharacter*>(character)->GetCharacter();
+			temps[2] = '\0';
+			cString = temps;
+			size = pDC->GetTextExtent(temps);
+		}
+		TextComposite *textComposite = static_cast<TextComposite*>(textEdit->text->GetAt(this->startRowIndex - 1));
+		CString string = textComposite->MakeCString(this->startCharacterIndex);
+		CSize tempSize = pDC->GetTextExtent(string);
+		CRect rect(textEdit->caret->GetCurrentX(),17*(this->startRowIndex - 1), tempSize.cx + textEdit->caret->GetCurrentX()  , tempSize.cx + textEdit->caret->GetCurrentX() + this->startY+tempSize.cy);
+	
+		pDC->DrawText(cString, &rect, DT_EXPANDTABS);
+		i++;
 	}
-	else {
-		this->textComponents.AppendFromRear(textComponent);
-		this->capacity++;
-	}
-	this->length++;
-	return this->length;
+
 }
-*/
 TextComponent* TextAreaSelected::GetAt(Long index) {
 	return this->textComponents.GetAt(index);
 }

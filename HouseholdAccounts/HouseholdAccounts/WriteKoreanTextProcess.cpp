@@ -30,7 +30,7 @@ void WriteKoreanTextProcess::EndComposition(TextEdit *textEdit, Long bufferLengt
 	TextComposite *textComposite = textComponent->GetComposite();
 	Long characterIndex = textEdit->caret->GetCharacterIndex();
 	textComposite->Modify(characterIndex - 1, doubleByteCharacter);
-	textEdit->WritingKoreanState = false;
+	textEdit->writingKoreanState = false;
 	delete[] tempChar;
 }
 void WriteKoreanTextProcess::StartComposition(TextEdit *textEdit, Long bufferLength, char(*buffer)) {
@@ -55,7 +55,7 @@ void WriteKoreanTextProcess::StartComposition(TextEdit *textEdit, Long bufferLen
 		position = textComposite->Insert(characterIndex, doubleByteCharacter);
 		textEdit->caret->SetCharacterIndex(position + 1);
 	}
-	textEdit->WritingKoreanState = true;
+	textEdit->writingKoreanState = true;
 	delete[] tempChar;
 }
 
@@ -84,6 +84,6 @@ void WriteKoreanTextProcess::DuringComposition(TextEdit *textEdit, Long bufferLe
 		textComposite->Remove(doubleByteCharacter);
 		textEdit->caret->CreateCaret();
 		textEdit->caret->BackSpaceKeyMovingCaret();
-		textEdit->WritingKoreanState = false;
+		textEdit->writingKoreanState = false;
 	}
 }

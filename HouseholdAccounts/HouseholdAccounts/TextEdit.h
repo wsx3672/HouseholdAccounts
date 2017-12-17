@@ -28,7 +28,8 @@ public:
 	KeyBoard *keyBoard;	
 	Caret *caret;
 	TextAreaSelected *textAreaSelected;
-	bool WritingKoreanState;
+	bool writingKoreanState;
+	bool selectedArea;
 	Long keyDownCheck;
 };
 #endif // !_TEXTEDIT_H

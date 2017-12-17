@@ -392,7 +392,7 @@ void Caret::ShiftAndLeftArrowCaretMoving(TextComponent *textComponent) {
 	Long width = size.cx;
 	this->currentX -= width;
 	this->characterIndex--;
-	textEdit->caret->CreateCaret(width, 17);
+	textEdit->caret->CreateCaret();
 }
 void Caret::FontSetting(CFont *font) {
 	font->CreateFont(17, 0, 0, 0, FW_NORMAL, FALSE, FALSE, 0, DEFAULT_CHARSET,

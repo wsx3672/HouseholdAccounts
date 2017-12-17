@@ -28,7 +28,8 @@ TextEdit::TextEdit(HouseholdAccountsForm *householdAccountsForm) {
 	this->caret = NULL;
 	this->textAreaSelected = NULL;
 	this->keyDownCheck = -1;
-	this->WritingKoreanState = false;
+	this->writingKoreanState = false;
+	this->selectedArea = false;
 }
 void TextEdit::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 	this->keyDownCheck = -1;
@@ -41,7 +42,7 @@ void TextEdit::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 }
 void TextEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
 	char nChar1 = nChar;
-	if (this->keyDownCheck < 0 && this->WritingKoreanState == false) {
+	if (this->keyDownCheck < 0 && this->writingKoreanState == false) {
 		SingleByteCharacter *singleByteCharacter = new SingleByteCharacter(nChar1);
 		Long currentRowIndex = this->caret->GetCurrentRowIndex();
 		TextComponent *textComponent = this->text->GetAt(currentRowIndex - 1);
@@ -77,6 +78,7 @@ Long TextEdit::OnComposition(WPARAM wParam, LPARAM lParam) {
 }
 void TextEdit::OnPaint() {
 	CPaintDC dc(this);
+	
 	CRect rect;
 	this->GetClientRect(rect);
 	dc.FillSolidRect(rect, RGB(255, 255, 255));
@@ -94,6 +96,10 @@ void TextEdit::OnPaint() {
 		dc.TextOut(0  ,i *17 ,cString);
 		i++;
 	}
+	if (this->selectedArea == true) {
+		this->textAreaSelected->SelectedTextArea(this,&dc);
+	}
+	//dc.DrawText("FSDFS", CRect(100, 200, 300, 400),DT_EXPANDTABS);
 	CWnd::OnPaint();
 }
 int TextEdit::OnCreate(LPCREATESTRUCT lpCreateStruct) {
