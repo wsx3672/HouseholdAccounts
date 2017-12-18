@@ -33,6 +33,14 @@ void Caret::CreateCaret(Long width , Long height ) {
 void Caret::ChangeCaretWidth() {
 	this->textEdit->CreateSolidCaret(2, 17);
 }
+Long Caret::SetCurrentX(Long currentX) {
+	this->currentX = currentX;
+	return this->currentX;
+}
+Long Caret::SetCurrentY(Long currentY) {
+	this->currentY = currentY;
+	return this->currentY;
+}
 void Caret::RightMovingCaret() {
 	CClientDC  dc(this->textEdit);
 	CSize size;
@@ -376,6 +384,35 @@ void Caret::ShiftAndLeftArrowCaretMoving(TextComponent *textComponent) {
 	CString cString;
 	textEdit->caret->FontSetting(&font);
 	dc.SelectObject(font);
+	if (this->characterIndex >= 0) {
+		Character *character = static_cast<Character*>(textComponent);
+		Long ret = character->CheckingSingleAndDouble();
+		char temp;
+		char *temps;
+		if (ret == 0) {
+			temp = static_cast<SingleByteCharacter*>(character)->GetCharacter();
+			size = dc.GetTextExtent(temp);
+		}
+		else {
+			temps = static_cast<DoubleByteCharacter*>(character)->GetCharacter();
+			temps[2] = '\0';
+			size = dc.GetTextExtent(temps);
+		}
+		this->currentX -= size.cx;
+		this->characterIndex--;
+		textEdit->caret->CreateCaret();
+	}
+	else {
+
+	}
+}
+void Caret::ShiftAndRightArrowCaretMoving(TextComponent *textComponent) {
+	CClientDC  dc(this->textEdit);
+	CSize size;
+	CFont font;
+	CString cString;
+	textEdit->caret->FontSetting(&font);
+	dc.SelectObject(font);
 	Character *character = static_cast<Character*>(textComponent);
 	Long ret = character->CheckingSingleAndDouble();
 	char temp;
@@ -389,9 +426,8 @@ void Caret::ShiftAndLeftArrowCaretMoving(TextComponent *textComponent) {
 		temps[2] = '\0';
 		size = dc.GetTextExtent(temps);
 	}
-	Long width = size.cx;
-	this->currentX -= width;
-	this->characterIndex--;
+	this->currentX += size.cx;
+	this->characterIndex++;
 	textEdit->caret->CreateCaret();
 }
 void Caret::FontSetting(CFont *font) {

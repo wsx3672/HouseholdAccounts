@@ -57,6 +57,8 @@ Long TextComposite::Remove(Long index) {
 	Long position = 0;
 	if (this->textComponents.GetAt(index) != 0) {
 		position = this->textComponents.Delete(index);
+		this->length--;
+		this->capacity--;
 	}
 	return position;
 }
@@ -111,6 +113,58 @@ CString TextComposite::MakeCString() {
 	}
 	CString cString(tempChar, j);
 	return cString;
+}
+CString TextComposite::MakeCString(Long firstIndex, Long secondIndex) {
+	char tempChar[1028];
+	Long j = 0;
+	while (firstIndex < secondIndex) {
+		TextComponent *textComponent = this->GetAt(firstIndex);
+		if (dynamic_cast<SingleByteCharacter*>(textComponent)) {
+			SingleByteCharacter *singleByteCharacter = static_cast<SingleByteCharacter*>(textComponent);
+			char temp = singleByteCharacter->GetCharacter();
+			if (temp != '\n') {
+				tempChar[j] = singleByteCharacter->GetCharacter();
+				j++;
+			}
+		}
+		if (dynamic_cast<DoubleByteCharacter*>(textComponent)) {
+			DoubleByteCharacter *doubleByteCharacter = static_cast<DoubleByteCharacter*>(textComponent);
+			tempChar[j] = doubleByteCharacter->GetCharacter()[0];
+			j++;
+			tempChar[j] = doubleByteCharacter->GetCharacter()[1];
+			j++;
+		}
+		firstIndex++;
+	}
+	CString cString(tempChar, j);
+	return cString;
+}
+Long TextComposite::GetSelectedWidth(CDC *cdc) {
+	char tempChar[1028];
+	Long i = 0;
+	Long j = 0;
+	while (i < this->length) {
+		TextComponent *textComponent = this->GetAt(i);
+		if (dynamic_cast<SingleByteCharacter*>(textComponent)) {
+			SingleByteCharacter *singleByteCharacter = static_cast<SingleByteCharacter*>(textComponent);
+			char temp = singleByteCharacter->GetCharacter();
+			if (temp != '\n') {
+				tempChar[j] = singleByteCharacter->GetCharacter();
+				j++;
+			}
+		}
+		if (dynamic_cast<DoubleByteCharacter*>(textComponent)) {
+			DoubleByteCharacter *doubleByteCharacter = static_cast<DoubleByteCharacter*>(textComponent);
+			tempChar[j] = doubleByteCharacter->GetCharacter()[0];
+			j++;
+			tempChar[j] = doubleByteCharacter->GetCharacter()[1];
+			j++;
+		}
+		i++;
+	}
+	CString cString(tempChar, j);
+	CSize size = cdc->GetTextExtent(cString);
+	return size.cx;
 }
 Long TextComposite::Insert(Long index, TextComponent *textComponent) {
 	Long position = this->textComponents.Insert(index , textComponent);

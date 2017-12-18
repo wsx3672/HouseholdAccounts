@@ -26,6 +26,8 @@ public:
 	TextComposite(Long capacity = 10000 );
 	CString MakeCString();
 	CString MakeCString(Long length);
+	CString MakeCString(Long firstIndex, Long secondIndex);
+	Long GetSelectedWidth(CDC *cdc);
 protected:
 	Array<TextComponent*> textComponents;
 	Long capacity;

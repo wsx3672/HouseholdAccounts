@@ -14,6 +14,7 @@
 #include "SelectedBackSpaceKey.h"
 #include "TextEdit.h"
 #include "TextAreaSelected.h"
+#include "ShiftAndRightArrowKey.h"
 KeyBoard::KeyBoard() {
 	this->keyAction = 0;
 }
@@ -50,7 +51,13 @@ KeyAction* KeyBoard::Action(TextEdit *textEdit, UINT nChar, UINT nRepCnt, UINT n
 		else {
 			this->keyAction = new ShiftAndLeftArrowKey; break;
 		}
-	case VK_RIGHT:this->keyAction = new RightArrowKey; break;
+	case VK_RIGHT:	
+		if (nFlags && GetKeyState(VK_SHIFT) >= 0) {
+			this->keyAction = new RightArrowKey; break;
+		}
+		else {
+			this->keyAction = new ShiftAndRightArrowKey; break;
+		}
 	case VK_UP:this->keyAction = new UpArrowKey; break;
 	case VK_DOWN:this->keyAction = new DownArrowKey; break;
 	case VK_HOME:this->keyAction = new HomeKey; break;

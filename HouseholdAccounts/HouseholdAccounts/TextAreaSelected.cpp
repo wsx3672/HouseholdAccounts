@@ -56,16 +56,37 @@ void TextAreaSelected::SelectedTextArea(TextEdit *textEdit, CDC *pDC) {
 	CString cString;
 	CSize size;
 	Long length = textEdit->textAreaSelected->GetLength();
-	Long i = 0;
-	Long ret;
-	Long currentX = textEdit->caret->GetCurrentX();
-	Long currentY = textEdit->caret->GetCurrentY();
-	char temp;
-	char *temps;
+	Long currnetRowIndex = textEdit->caret->GetCurrentRowIndex();
+	TextComponent *textComponent = textEdit->text->GetAt(currnetRowIndex - 1);
+	TextComposite *textComposite = textComponent->GetComposite();
 	pDC->SetTextColor(RGB(255, 255, 255));
 	pDC->SetBkColor(RGB(51, 153, 255));
 	pDC->SetBkMode(OPAQUE);//텍스트 배경을 SetBkColor 사용
-	while (i < length) {
+	Long startCharacterIndex = textEdit->textAreaSelected->GetStartCharacterIndex();
+	Long currentCharacterIndex = textEdit->caret->GetCharacterIndex();
+	CRect rect;
+	if (startCharacterIndex > currentCharacterIndex) {
+		cString = textComposite->MakeCString(currentCharacterIndex, startCharacterIndex);
+		size = pDC->GetTextExtent(cString);
+		rect.left = textEdit->caret->GetCurrentX();
+		rect.top = 17 * (this->startRowIndex - 1);
+		rect.right = size.cx + textEdit->caret->GetCurrentX();
+		rect.bottom = size.cx + textEdit->caret->GetCurrentX() + this->startY + size.cy;
+	}
+	else {
+		cString = textComposite->MakeCString(startCharacterIndex, currentCharacterIndex);
+		size = pDC->GetTextExtent(cString);
+		rect.left = textEdit->caret->GetCurrentX() - size.cx;
+		rect.top = 17 * (this->startRowIndex - 1);
+		rect.right = textEdit->caret->GetCurrentX();
+		rect.bottom = textEdit->caret->GetCurrentX() + size.cy; 
+
+	}
+	size = pDC->GetTextExtent(cString);
+	pDC->DrawText(cString, &rect, DT_EXPANDTABS);
+
+	/*
+	while (i < length)	{
 		Character *character = static_cast<Character*>(textEdit->textAreaSelected->GetAt(i));
 		ret = character->CheckingSingleAndDouble();
 		if (ret == 0) {
@@ -87,6 +108,7 @@ void TextAreaSelected::SelectedTextArea(TextEdit *textEdit, CDC *pDC) {
 		pDC->DrawText(cString, &rect, DT_EXPANDTABS);
 		i++;
 	}
+	*/
 
 }
 TextComponent* TextAreaSelected::GetAt(Long index) {

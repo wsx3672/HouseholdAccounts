@@ -26,9 +26,12 @@ public:
 	void HomeKeyMovingCaret();
 	void EndKeyMovingCaret();
 	void ShiftAndLeftArrowCaretMoving(TextComponent *textComponent);
+	void ShiftAndRightArrowCaretMoving(TextComponent *textComponent);
 	Long GetCurrentX() const;
 	Long GetCurrentY() const;
 	Long GetCurrentRowIndex() const;
+	Long SetCurrentX(Long currentX);
+	Long SetCurrentY(Long currentY);
 	Long SetCurrentRowIndex(Long currentRowIndex);
 	Long SetCharacterIndex(Long characterIndex);
 	Long GetCharacterIndex() const;

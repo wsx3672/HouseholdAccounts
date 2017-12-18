@@ -4,8 +4,6 @@
 #include "Text.h"
 #include "Caret.h"
 #include "Character.h"
-#include "SingleByteCharacter.h"
-#include "DoubleByteCharacter.h"
 ShiftAndLeftArrowKey::ShiftAndLeftArrowKey() {
 }
 ShiftAndLeftArrowKey::~ShiftAndLeftArrowKey() {
@@ -24,8 +22,27 @@ void ShiftAndLeftArrowKey::Action(TextEdit *textEdit) {
 	TextComponent *textComponent = textEdit->text->GetAt(currentRowIndex - 1);
 	TextComposite *textComposite = textComponent->GetComposite();
 	Long characterIndex = textEdit->caret->GetCharacterIndex();
-	TextComponent *addTextComponent = textComposite->GetAt(characterIndex-1);
-	textEdit->textAreaSelected->Add(addTextComponent);
-	textEdit->caret->ShiftAndLeftArrowCaretMoving(addTextComponent);
-	//textEdit->caret->LeftArrowKeyMovingCaret();
+	if (characterIndex == 0 && currentRowIndex != 1) {
+		currentRowIndex--;
+		textEdit->caret->SetCurrentRowIndex(currentRowIndex);
+		textComponent = textEdit->text->GetAt(currentRowIndex - 1);
+		textComposite = textComponent->GetComposite();
+		Long tempCharacterIndex = textComposite->GetLength();
+		textEdit->caret->SetCharacterIndex(tempCharacterIndex);
+		characterIndex = textEdit->caret->GetCharacterIndex();
+		//this->characterIndex = tempCharacterIndex - 1;
+		textEdit->caret->PreviousRowMovingCaret();
+	}
+	TextComponent *getTextComponent = textComposite->GetAt(characterIndex-1);
+	Long length = textEdit->textAreaSelected->GetLength();
+	TextComponent *compareTextComponent = textEdit->textAreaSelected->GetAt(length - 1);
+	if (getTextComponent == compareTextComponent) {
+		textEdit->textAreaSelected->Remove(length - 1);
+		textEdit->caret->LeftArrowKeyMovingCaret();
+	}
+	else {
+		textEdit->textAreaSelected->Add(getTextComponent);
+		//textEdit->caret->ShiftAndLeftArrowCaretMoving(getTextComponent);
+		textEdit->caret->LeftArrowKeyMovingCaret();
+	}
 }

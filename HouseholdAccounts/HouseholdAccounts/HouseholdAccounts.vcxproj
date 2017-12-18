@@ -161,6 +161,7 @@
     <ClInclude Include="LeftArrowKey.h" />
     <ClInclude Include="RightArrowKey.h" />
     <ClInclude Include="Row.h" />
+    <ClInclude Include="ShiftAndRightArrowKey.h" />
     <ClInclude Include="SingleByteCharacter.h" />
     <ClInclude Include="Text.h" />
     <ClInclude Include="TextAreaSelected.h" />
@@ -191,6 +192,7 @@
     <ClCompile Include="LeftArrowKey.cpp" />
     <ClCompile Include="RightArrowKey.cpp" />
     <ClCompile Include="Row.cpp" />
+    <ClCompile Include="ShiftAndRightArrowKey.cpp" />
     <ClCompile Include="SingleByteCharacter.cpp" />
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="TextAreaSelected.cpp" />
