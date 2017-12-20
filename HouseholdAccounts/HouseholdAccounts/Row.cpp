@@ -37,6 +37,9 @@ Long Row::Insert(Long index, TextComponent *textComponent) {
 	Long position = TextComposite::Insert(index, textComponent);
 	return position;
 }
+TextComponent* Row::Clone() const {
+	return new Row(*this);
+}
 /*
 Long Row::Add(TextComponent *textComponent) {
 	if (this->length < this->capacity) {

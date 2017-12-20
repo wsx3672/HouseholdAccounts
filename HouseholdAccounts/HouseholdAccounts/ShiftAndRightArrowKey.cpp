@@ -21,18 +21,37 @@ void ShiftAndRightArrowKey::Action(TextEdit *textEdit) {
 		textEdit->selectedArea = true;
 	}
 	Long currentRowIndex = textEdit->caret->GetCurrentRowIndex();
+	Long length = textEdit->text->GetLength();
 	TextComponent *textComponent = textEdit->text->GetAt(currentRowIndex - 1);
 	TextComposite *textComposite = textComponent->GetComposite();
 	Long characterIndex = textEdit->caret->GetCharacterIndex();
-	TextComponent *getTextComponent = textComposite->GetAt(characterIndex);
-	Long length = textEdit->textAreaSelected->GetLength();
-	TextComponent *compareTextComponent = textEdit->textAreaSelected->GetAt(length - 1);
+	Long rowLength = textComposite->GetLength();
+	bool ret = false;
+	TextComponent *getTextComponent = 0;
+	if (characterIndex == rowLength-1  && length != currentRowIndex) {
+		getTextComponent = textComposite->GetAt(characterIndex);
+		currentRowIndex++;
+		textEdit->caret->SetCurrentRowIndex(currentRowIndex);
+		textComponent = textEdit->text->GetAt(currentRowIndex - 1);
+		textComposite = textComponent->GetComposite();
+		ret = true;
+	}
+	if (getTextComponent == 0) {
+		getTextComponent = textComposite->GetAt(characterIndex);
+	}
+	Long SelectedLength = textEdit->textAreaSelected->GetLength();
+	TextComponent *compareTextComponent = textEdit->textAreaSelected->GetAt(SelectedLength - 1);
 	if (getTextComponent == compareTextComponent) {
-		textEdit->textAreaSelected->Remove(length - 1);
-		textEdit->caret->RightArrowKeyMovingCaret();
+		textEdit->textAreaSelected->Remove(SelectedLength - 1);
 	}
 	else {
 		textEdit->textAreaSelected->Add(getTextComponent);
-		textEdit->caret->ShiftAndRightArrowCaretMoving(getTextComponent);
+	
+	}
+	if (ret != true) {
+		textEdit->caret->RightArrowKeyMovingCaret();
+	}
+	else {
+		textEdit->caret->NextRowMovingCaret();
 	}
 }

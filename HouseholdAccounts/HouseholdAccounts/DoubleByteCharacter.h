@@ -10,6 +10,10 @@ public:
 	virtual ~DoubleByteCharacter();
 	DoubleByteCharacter(const DoubleByteCharacter& source);
 
+
+	virtual TextComponent* Clone() const;
+
+
 	DoubleByteCharacter& operator= (const DoubleByteCharacter& source);
 	char* GetCharacter() const;
 private:

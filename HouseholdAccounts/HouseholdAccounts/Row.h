@@ -20,7 +20,8 @@ public:
 	virtual Long Modify(Long index, TextComponent *textComponent);
 	virtual Long Insert(Long index, TextComponent *textComponent);
 
-	//Long Add(TextComponent *textComponent);
+	virtual TextComponent* Clone() const;
+
 	TextComponent* GetAt(Long index);
 	TextComponent* operator [] (Long index);
 	Long GetCapacity()const;

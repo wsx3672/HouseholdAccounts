@@ -262,6 +262,7 @@ void Caret::UpArrowKeyMovingCaret() {
 	this->CreateCaret();
 }
 void Caret::DownArrowKeyMovingCaret() {
+	/////
 	CClientDC  dc(this->textEdit);
 	CSize currentSize;
 	CString currentCString;
@@ -302,7 +303,7 @@ void Caret::DownArrowKeyMovingCaret() {
 			cx = compareCSize.cx;
 			i++;
 		}
-		if (i <= downRowLength && ret == false) {
+		if (i-1 <= downRowLength && ret == false) {
 			i--;
 			this->characterIndex = i;
 			CString string = downComposite->MakeCString(this->characterIndex);

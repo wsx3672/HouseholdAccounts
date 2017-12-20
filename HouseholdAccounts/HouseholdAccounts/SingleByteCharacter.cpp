@@ -15,6 +15,9 @@ SingleByteCharacter& SingleByteCharacter::operator=(const SingleByteCharacter& s
 	this->character = source.character;
 	return *this;
 }
+TextComponent* SingleByteCharacter::Clone() const {
+	return new SingleByteCharacter(*this);
+}
  /*
 #include <iostream>
 using namespace std;

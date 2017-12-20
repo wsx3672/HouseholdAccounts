@@ -22,6 +22,7 @@ public:
 	virtual Long Modify(Long index, TextComponent *textComponent);
 	virtual Long Insert(Long index, TextComponent *textComponent);
 
+	virtual TextComponent* Clone() const;
 	
 	TextComponent* GetAt(Long index);
 

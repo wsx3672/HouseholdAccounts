@@ -19,6 +19,9 @@ DoubleByteCharacter& DoubleByteCharacter::operator=(const DoubleByteCharacter& s
 	this->characters[1] = source.characters[1];
 	return *this;
 }
+TextComponent* DoubleByteCharacter::Clone() const {
+	return new DoubleByteCharacter(*this);
+}
 /*  DoubleByteCharacter 뒤에 '\0' 문자를 넣어줘서 짤라줘야함.
 #include <iostream>
 using namespace std;

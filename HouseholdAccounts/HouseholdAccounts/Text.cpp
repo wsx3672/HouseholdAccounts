@@ -56,6 +56,9 @@ Long Text::Insert(Long index, TextComponent *textComponent) {
 	Long position = TextComposite::Insert(index, textComponent);
 	return position;
 }
+TextComponent* Text::Clone() const {
+	return new Text(*this);
+}
 /*
 int main(int agrc, char *argv[]) {
 	return 0;

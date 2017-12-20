@@ -117,6 +117,9 @@ TextComponent* TextAreaSelected::GetAt(Long index) {
 TextComponent* TextAreaSelected::operator[](Long index) {
 	return this->textComponents[index];
 }
+TextComponent* TextAreaSelected::Clone() const {
+	return new TextAreaSelected(*this);
+}
 /*
 #include <iostream>
 #include "SingleByteCharacter.h"

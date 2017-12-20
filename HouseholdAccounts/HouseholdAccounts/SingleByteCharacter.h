@@ -10,6 +10,8 @@ public:
 	virtual ~SingleByteCharacter();
 	SingleByteCharacter(const SingleByteCharacter& source);
 
+	virtual TextComponent* Clone() const;
+
 	SingleByteCharacter& operator= (const SingleByteCharacter& source);
 	char GetCharacter() const;
 private:

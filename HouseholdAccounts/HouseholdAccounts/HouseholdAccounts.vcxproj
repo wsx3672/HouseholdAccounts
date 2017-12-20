@@ -146,6 +146,7 @@
     <ClInclude Include="Caret.h" />
     <ClInclude Include="Character.h" />
     <ClInclude Include="SelectedBackSpaceKey.h" />
+    <ClInclude Include="SelectedRemoveProcess.h" />
     <ClInclude Include="ShiftAndLeftArrowKey.h" />
     <ClInclude Include="DeleteKey.h" />
     <ClInclude Include="DoubleByteCharacter.h" />
@@ -177,6 +178,7 @@
     <ClCompile Include="Caret.cpp" />
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="SelectedBackSpaceKey.cpp" />
+    <ClCompile Include="SelectedRemoveProcess.cpp" />
     <ClCompile Include="ShiftAndLeftArrowKey.cpp" />
     <ClCompile Include="DeleteKey.cpp" />
     <ClCompile Include="DoubleByteCharacter.cpp" />
