@@ -96,7 +96,7 @@ void SelectedRemoveProcess::SelectedRemove(TextEdit *textEdit) {
 	}
 	firstRowIndex = first;
 	while (secondRowIndex >= firstRowIndex) { //ºóÁÙ »èÁ¦
-		textComponent = textEdit->text->GetAt(secondRowIndex - 1);
+		textComponent = textEdit->text->GetAt(secondRowIndex - 1);    
 		textComposite = textComponent->GetComposite();
 		length = textComposite->GetLength();
 		if (length == 0) {
