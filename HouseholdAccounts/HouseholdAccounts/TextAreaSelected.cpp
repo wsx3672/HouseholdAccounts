@@ -5,6 +5,7 @@
 #include "Caret.h"
 #include "Text.h"
 #include "DoubleByteCharacter.h"
+#include "TextAreaSelectedProcess.h"
 #include <afxwin.h>
 TextAreaSelected::TextAreaSelected(Long capacity) : TextComposite(capacity){
 	this->length = 0;
@@ -55,15 +56,56 @@ Long TextAreaSelected::Insert(Long index, TextComponent *textComponent) {
 void TextAreaSelected::SelectedTextArea(TextEdit *textEdit, CDC *pDC) {
 	CString cString;
 	CSize size;
-	Long length = textEdit->textAreaSelected->GetLength();
-	Long currnetRowIndex = textEdit->caret->GetCurrentRowIndex();
-	TextComponent *textComponent = textEdit->text->GetAt(currnetRowIndex - 1);
-	TextComposite *textComposite = textComponent->GetComposite();
+	Long currentRowIndex = textEdit->caret->GetCurrentRowIndex();
+	Long startRowIndex = textEdit->textAreaSelected->GetStartRowIndex();
+	TextComponent *textComponent = 0;
+	TextComposite *textComposite = 0;
 	pDC->SetTextColor(RGB(255, 255, 255));
 	pDC->SetBkColor(RGB(51, 153, 255));
 	pDC->SetBkMode(OPAQUE);//텍스트 배경을 SetBkColor 사용
-	Long startCharacterIndex = textEdit->textAreaSelected->GetStartCharacterIndex();
-	Long currentCharacterIndex = textEdit->caret->GetCharacterIndex();
+	Long startCharacterIndex ;
+	Long endCharacterIndex ;
+	Long index = 0;
+	Long length = 0;
+	TextAreaSelectedProcess textAreaSelectedProcess;
+	if (startRowIndex > currentRowIndex) {
+		index = currentRowIndex;
+		length = startRowIndex;
+		startCharacterIndex = textEdit->caret->GetCharacterIndex();
+		endCharacterIndex = textEdit->text->GetAt(index - 1)->GetComposite()->GetLength();
+	}
+	else if(startRowIndex < currentRowIndex) {
+		index = startRowIndex;
+		length = currentRowIndex;
+		startCharacterIndex = 0;
+		endCharacterIndex =  textEdit->caret->GetCharacterIndex();
+	}
+	/*
+	else {
+		if (textEdit->textAreaSelected->GetStartCharacterIndex() > textEdit->caret->GetCharacterIndex()) {
+			startCharacterIndex = textEdit->caret->GetCharacterIndex();
+			endCharacterIndex = textEdit->textAreaSelected->GetStartCharacterIndex();
+		}
+		else {
+			startCharacterIndex = textEdit->textAreaSelected->GetStartCharacterIndex();
+			endCharacterIndex = textEdit->caret->GetCharacterIndex();
+		}
+		index = currentRowIndex;
+		length = currentRowIndex;
+	}
+	*/
+	//첫번째줄 , 마지막줄 , 한줄 추가 예정
+	textComponent = textEdit->text->GetAt(index - 1);
+	textComposite = textComponent->GetComposite();
+	textAreaSelectedProcess.PartRowAreaSelected(textEdit, pDC, textComposite, startCharacterIndex, endCharacterIndex, index);
+	
+	while (index < length - 1) {
+		textComponent = textEdit->text->GetAt(index);
+		textComposite = textComponent->GetComposite();
+		textAreaSelectedProcess.AllRowAreaSelected(textEdit, pDC, textComposite,index);
+		index++;
+	}
+	/*
 	CRect rect;
 	if (startCharacterIndex > currentCharacterIndex) {
 		cString = textComposite->MakeCString(currentCharacterIndex, startCharacterIndex);
@@ -84,32 +126,7 @@ void TextAreaSelected::SelectedTextArea(TextEdit *textEdit, CDC *pDC) {
 	}
 	size = pDC->GetTextExtent(cString);
 	pDC->DrawText(cString, &rect, DT_EXPANDTABS);
-
-	/*
-	while (i < length)	{
-		Character *character = static_cast<Character*>(textEdit->textAreaSelected->GetAt(i));
-		ret = character->CheckingSingleAndDouble();
-		if (ret == 0) {
-			temp = static_cast<SingleByteCharacter*>(character)->GetCharacter();
-			cString = temp;
-			size = pDC->GetTextExtent(temp);
-		}
-		else {
-			temps = static_cast<DoubleByteCharacter*>(character)->GetCharacter();
-			temps[2] = '\0';
-			cString = temps;
-			size = pDC->GetTextExtent(temps);
-		}
-		TextComposite *textComposite = static_cast<TextComposite*>(textEdit->text->GetAt(this->startRowIndex - 1));
-		CString string = textComposite->MakeCString(this->startCharacterIndex);
-		CSize tempSize = pDC->GetTextExtent(string);
-		CRect rect(textEdit->caret->GetCurrentX(),17*(this->startRowIndex - 1), tempSize.cx + textEdit->caret->GetCurrentX()  , tempSize.cx + textEdit->caret->GetCurrentX() + this->startY+tempSize.cy);
-	
-		pDC->DrawText(cString, &rect, DT_EXPANDTABS);
-		i++;
-	}
 	*/
-
 }
 TextComponent* TextAreaSelected::GetAt(Long index) {
 	return this->textComponents.GetAt(index);

@@ -15,6 +15,8 @@
 #include "TextEdit.h"
 #include "TextAreaSelected.h"
 #include "ShiftAndRightArrowKey.h"
+#include "ShiftAndUpArrowKey.h"
+#include "ShiftAndDownArrowKey.h"
 KeyBoard::KeyBoard() {
 	this->keyAction = 0;
 }
@@ -58,8 +60,20 @@ KeyAction* KeyBoard::Action(TextEdit *textEdit, UINT nChar, UINT nRepCnt, UINT n
 		else {
 			this->keyAction = new ShiftAndRightArrowKey; break;
 		}
-	case VK_UP:this->keyAction = new UpArrowKey; break;
-	case VK_DOWN:this->keyAction = new DownArrowKey; break;
+	case VK_UP:
+		if (nFlags && GetKeyState(VK_SHIFT) >= 0) {
+			this->keyAction = new UpArrowKey; break;
+		}
+		else {
+			this->keyAction = new ShiftAndUpArrowKey; break;
+		}
+	case VK_DOWN:
+		if (nFlags && GetKeyState(VK_SHIFT) >= 0) {
+			this->keyAction = new DownArrowKey; break;
+		}
+		else {
+			this->keyAction = new ShiftAndDownArrowKey; break;
+		}
 	case VK_HOME:this->keyAction = new HomeKey; break;
 	case VK_END:this->keyAction = new EndKey; break;
 	case VK_DELETE:this->keyAction = new DeleteKey; break;
