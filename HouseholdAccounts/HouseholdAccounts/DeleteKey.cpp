@@ -1,10 +1,6 @@
 #include "DeleteKey.h"
 #include "TextEdit.h"
-#include "Text.h"
-#include "Caret.h"
-
-#include "TextComponent.h"
-#include "TextComposite.h"
+#include "DeleteKeyProcess.h"
 DeleteKey::DeleteKey() {
 }
 DeleteKey::~DeleteKey() {
@@ -15,16 +11,11 @@ DeleteKey& DeleteKey::operator=(const DeleteKey& source) {
 	return *this;
 }
 void DeleteKey::Action(TextEdit *textEdit) {
-	Long currentRowIndex = textEdit->caret->GetCurrentRowIndex();
-	Long characterIndex = textEdit->caret->GetCharacterIndex();
-	TextComponent *textComponent = textEdit->text->GetAt(currentRowIndex - 1);
-	TextComposite *textComposite = textComponent->GetComposite();
-	Long length = textComposite->GetLength();
-	TextComponent *deleteTextComponent = 0;
-	if (length > characterIndex) {
-		deleteTextComponent = textComposite->GetAt(characterIndex);
+	DeleteKeyProcess deleteKeyProcess;
+	if (textEdit->selectedArea == false) {
+		deleteKeyProcess.Delete(textEdit);
 	}
-	if (deleteTextComponent != 0) {
-		textComposite->Remove(deleteTextComponent);
+	else {
+		deleteKeyProcess.SelectionDelete(textEdit);
 	}
 }

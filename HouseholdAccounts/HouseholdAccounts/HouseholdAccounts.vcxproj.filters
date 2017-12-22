@@ -117,6 +117,15 @@
     <ClInclude Include="TextAreaSelectedProcess.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="ShiftAndHomeKey.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="ShiftAndEndKey.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="DeleteKeyProcess.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HouseholdAccountsApp.cpp">
@@ -216,6 +225,15 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="TextAreaSelectedProcess.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="ShiftAndHomeKey.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="ShiftAndEndKey.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="DeleteKeyProcess.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

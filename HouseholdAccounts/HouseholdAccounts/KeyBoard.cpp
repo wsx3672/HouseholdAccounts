@@ -17,6 +17,8 @@
 #include "ShiftAndRightArrowKey.h"
 #include "ShiftAndUpArrowKey.h"
 #include "ShiftAndDownArrowKey.h"
+#include "ShiftAndHomeKey.h"
+#include "ShiftAndEndKey.h"
 KeyBoard::KeyBoard() {
 	this->keyAction = 0;
 }
@@ -74,8 +76,20 @@ KeyAction* KeyBoard::Action(TextEdit *textEdit, UINT nChar, UINT nRepCnt, UINT n
 		else {
 			this->keyAction = new ShiftAndDownArrowKey; break;
 		}
-	case VK_HOME:this->keyAction = new HomeKey; break;
-	case VK_END:this->keyAction = new EndKey; break;
+	case VK_HOME:
+		if (nFlags && GetKeyState(VK_SHIFT) >= 0) {
+			this->keyAction = new HomeKey; break;
+		}
+		else {
+			this->keyAction = new ShiftAndHomeKey; break;
+		}
+	case VK_END:
+		if (nFlags && GetKeyState(VK_SHIFT) >= 0) {
+			this->keyAction = new EndKey; break;
+		}
+		else {
+			this->keyAction = new ShiftAndEndKey; break;
+		}
 	case VK_DELETE:this->keyAction = new DeleteKey; break;
 	default: break;
 	}

@@ -36,22 +36,30 @@ void ShiftAndRightArrowKey::Action(TextEdit *textEdit) {
 		textComposite = textComponent->GetComposite();
 		ret = true;
 	}
-	if (getTextComponent == 0) {
+	if (getTextComponent == 0 && rowLength != characterIndex) {
 		getTextComponent = textComposite->GetAt(characterIndex);
 	}
 	Long SelectedLength = textEdit->textAreaSelected->GetLength();
 	TextComponent *compareTextComponent = textEdit->textAreaSelected->GetAt(SelectedLength - 1);
-	if (getTextComponent == compareTextComponent) {
-		textEdit->textAreaSelected->Remove(SelectedLength - 1);
+	if (getTextComponent != 0) {
+		if (getTextComponent == compareTextComponent) {
+			textEdit->textAreaSelected->Remove(SelectedLength - 1);
+		}
+		else {
+			textEdit->textAreaSelected->Add(getTextComponent);
+		}
+		if (ret != true) {
+			textEdit->caret->RightArrowKeyMovingCaret();
+		}
+		else {
+			textEdit->caret->NextRowMovingCaret();
+		}
 	}
-	else {
-		textEdit->textAreaSelected->Add(getTextComponent);
-	
-	}
-	if (ret != true) {
-		textEdit->caret->RightArrowKeyMovingCaret();
-	}
-	else {
-		textEdit->caret->NextRowMovingCaret();
+	currentRowIndex = textEdit->caret->GetCurrentRowIndex();
+	characterIndex = textEdit->caret->GetCharacterIndex();
+	Long startRowIndex = textEdit->textAreaSelected->GetStartRowIndex();
+	Long startCharacterIndex = textEdit->textAreaSelected->GetStartCharacterIndex();
+	if (startRowIndex == currentRowIndex && startCharacterIndex == characterIndex) {
+		textEdit->selectedArea = false;
 	}
 }

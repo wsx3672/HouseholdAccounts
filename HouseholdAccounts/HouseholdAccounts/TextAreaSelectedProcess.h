@@ -13,7 +13,9 @@ public:
 	TextAreaSelectedProcess& operator= (const TextAreaSelectedProcess& source);
 
 	void AllRowAreaSelected(TextEdit *textEdit,CDC *pDC, TextComposite *textComposite, Long index);
-	void PartRowAreaSelected(TextEdit *textEdit, CDC *pDC, TextComposite *textComposite, Long index , Long length ,Long rowIndex);
+	void SingleRowAreaSelected(TextEdit *textEdit, CDC *pDC, TextComposite *textComposite, Long index , Long length ,Long rowIndex);
+	void FirstRowAreaSelected(TextEdit *textEdit, CDC *pDC, TextComposite *textComposite, Long index, Long length, Long rowIndex);
+	void LastRowAreaSelected(TextEdit *textEdit, CDC *pDC, TextComposite *textComposite, Long index, Long length, Long rowIndex);
 };
 #endif // !_TEXTAREASELECTEDPROCESS_H
 

@@ -73,4 +73,11 @@ void ShiftAndUpArrowKey::Action(TextEdit *textEdit) {
 			textEdit->selectedArea = false;
 		}
 	}
+	currentRowIndex = textEdit->caret->GetCurrentRowIndex();
+	currentCharacterIndex = textEdit->caret->GetCharacterIndex();
+    startRowIndex = textEdit->textAreaSelected->GetStartRowIndex();
+	Long startCharacterIndex = textEdit->textAreaSelected->GetStartCharacterIndex();
+	if (startRowIndex == currentRowIndex && startCharacterIndex == currentCharacterIndex) {
+		textEdit->selectedArea = false;
+	}
 }

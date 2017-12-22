@@ -130,3 +130,4 @@ void TextEdit::OnClose() {
 	}
 	CWnd::OnClose();
 }
+// Text선택된상태에서 Enter,방향키,글입력시 이벤트 처리해야함.

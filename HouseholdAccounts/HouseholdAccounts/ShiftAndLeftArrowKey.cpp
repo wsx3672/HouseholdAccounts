@@ -51,4 +51,11 @@ void ShiftAndLeftArrowKey::Action(TextEdit *textEdit) {
 			textEdit->caret->LeftArrowKeyMovingCaret();
 		}
 	}
+	currentRowIndex = textEdit->caret->GetCurrentRowIndex();
+	characterIndex = textEdit->caret->GetCharacterIndex();
+	Long startRowIndex = textEdit->textAreaSelected->GetStartRowIndex();
+	Long startCharacterIndex = textEdit->textAreaSelected->GetStartCharacterIndex();
+	if (startRowIndex == currentRowIndex && startCharacterIndex == characterIndex) {
+		textEdit->selectedArea = false;
+	}
 }

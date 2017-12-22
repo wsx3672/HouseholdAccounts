@@ -65,22 +65,30 @@ void TextAreaSelected::SelectedTextArea(TextEdit *textEdit, CDC *pDC) {
 	pDC->SetBkMode(OPAQUE);//텍스트 배경을 SetBkColor 사용
 	Long startCharacterIndex ;
 	Long endCharacterIndex ;
+	Long firstRowStartCharacterIndex;
+	Long firstRowEndCharacterIndex;
+	Long lastRowStartCharacterIndex;
+	Long lastRowEndCharacterIndex;
 	Long index = 0;
 	Long length = 0;
 	TextAreaSelectedProcess textAreaSelectedProcess;
 	if (startRowIndex > currentRowIndex) {
 		index = currentRowIndex;
 		length = startRowIndex;
-		startCharacterIndex = textEdit->caret->GetCharacterIndex();
-		endCharacterIndex = textEdit->text->GetAt(index - 1)->GetComposite()->GetLength();
+		firstRowStartCharacterIndex = textEdit->caret->GetCharacterIndex();
+		firstRowEndCharacterIndex = textEdit->text->GetAt(currentRowIndex - 1)->GetComposite()->GetLength() ;   // -1 해야하는지
+		lastRowStartCharacterIndex = 0;
+		lastRowEndCharacterIndex = textEdit->textAreaSelected->GetStartCharacterIndex();
 	}
 	else if(startRowIndex < currentRowIndex) {
 		index = startRowIndex;
 		length = currentRowIndex;
-		startCharacterIndex = 0;
-		endCharacterIndex =  textEdit->caret->GetCharacterIndex();
+		firstRowStartCharacterIndex = textEdit->textAreaSelected->GetStartCharacterIndex();
+		firstRowEndCharacterIndex = textEdit->text->GetAt(startRowIndex - 1)->GetComposite()->GetLength();   // -1 해야하는지
+		lastRowStartCharacterIndex = 0;
+		lastRowEndCharacterIndex = textEdit->caret->GetCharacterIndex();
 	}
-	/*
+	
 	else {
 		if (textEdit->textAreaSelected->GetStartCharacterIndex() > textEdit->caret->GetCharacterIndex()) {
 			startCharacterIndex = textEdit->caret->GetCharacterIndex();
@@ -93,40 +101,27 @@ void TextAreaSelected::SelectedTextArea(TextEdit *textEdit, CDC *pDC) {
 		index = currentRowIndex;
 		length = currentRowIndex;
 	}
-	*/
-	//첫번째줄 , 마지막줄 , 한줄 추가 예정
+
 	textComponent = textEdit->text->GetAt(index - 1);
 	textComposite = textComponent->GetComposite();
-	textAreaSelectedProcess.PartRowAreaSelected(textEdit, pDC, textComposite, startCharacterIndex, endCharacterIndex, index);
-	
+	//첫번째줄 , 마지막줄 , 한줄 추가 예정
+	if (index == length) {
+		textAreaSelectedProcess.SingleRowAreaSelected(textEdit, pDC, textComposite, startCharacterIndex, endCharacterIndex, index);
+	}
+	else {
+		textAreaSelectedProcess.FirstRowAreaSelected(textEdit, pDC, textComposite, firstRowStartCharacterIndex, firstRowEndCharacterIndex, index);
+	}
 	while (index < length - 1) {
 		textComponent = textEdit->text->GetAt(index);
 		textComposite = textComponent->GetComposite();
 		textAreaSelectedProcess.AllRowAreaSelected(textEdit, pDC, textComposite,index);
 		index++;
 	}
-	/*
-	CRect rect;
-	if (startCharacterIndex > currentCharacterIndex) {
-		cString = textComposite->MakeCString(currentCharacterIndex, startCharacterIndex);
-		size = pDC->GetTextExtent(cString);
-		rect.left = textEdit->caret->GetCurrentX();
-		rect.top = 17 * (this->startRowIndex - 1);
-		rect.right = size.cx + textEdit->caret->GetCurrentX();
-		rect.bottom = size.cx + textEdit->caret->GetCurrentX() + this->startY + size.cy;
+	textComponent = textEdit->text->GetAt(length - 1);
+	textComposite = textComponent->GetComposite();
+	if (index != length) {
+		textAreaSelectedProcess.LastRowAreaSelected(textEdit, pDC, textComposite, lastRowStartCharacterIndex, lastRowEndCharacterIndex, length);
 	}
-	else {
-		cString = textComposite->MakeCString(startCharacterIndex, currentCharacterIndex);
-		size = pDC->GetTextExtent(cString);
-		rect.left = textEdit->caret->GetCurrentX() - size.cx;
-		rect.top = 17 * (this->startRowIndex - 1);
-		rect.right = textEdit->caret->GetCurrentX();
-		rect.bottom = textEdit->caret->GetCurrentX() + size.cy; 
-
-	}
-	size = pDC->GetTextExtent(cString);
-	pDC->DrawText(cString, &rect, DT_EXPANDTABS);
-	*/
 }
 TextComponent* TextAreaSelected::GetAt(Long index) {
 	return this->textComponents.GetAt(index);
@@ -137,39 +132,3 @@ TextComponent* TextAreaSelected::operator[](Long index) {
 TextComponent* TextAreaSelected::Clone() const {
 	return new TextAreaSelected(*this);
 }
-/*
-#include <iostream>
-#include "SingleByteCharacter.h"
-#include "DoubleByteCharacter.h"
-using namespace std;
-int main(int argc, char *argv[]) {
-	TextAreaSelected textAreaSelected;
-	SingleByteCharacter *singleByteCharacter = new SingleByteCharacter('H');
-	DoubleByteCharacter *doubleByteCharacter = new DoubleByteCharacter("한");
-	textAreaSelected.Add(singleByteCharacter);
-	textAreaSelected.Add(doubleByteCharacter);
-
-	Long i = 0;
-	Long length = textAreaSelected.GetLength();
-	Long capacity = textAreaSelected.GetCapacity();
-	Long ret;
-	char temp;
-	char *temps;
-	while (i < length) {
-		Character *character = static_cast<Character*>(textAreaSelected.GetAt(i));
-		ret = character->CheckingSingleAndDouble();
-		if (ret == 0) {
-			temp = static_cast<SingleByteCharacter*>(character)->GetCharacter();
-			cout << temp << endl;
-		}
-		else {
-			temps = static_cast<DoubleByteCharacter*>(character)->GetCharacter();
-			temps[2] = '\0';
-			cout << temps << endl;
-		}
-		i++;
-	}
-	cout << length << "    " << capacity << endl;
-	return 0;
-}
-*/
