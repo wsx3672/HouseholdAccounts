@@ -311,7 +311,7 @@ void Caret::DownArrowKeyMovingCaret() {
 			this->currentX = size.cx;
 			this->currentY += 17;
 		}
-		if (downRowLength == 0 && ret == false) {
+		else if (downRowLength == 0 && ret == false) {
 			this->characterIndex = 0;
 			this->currentX = 0;
 			this->currentY += 17;

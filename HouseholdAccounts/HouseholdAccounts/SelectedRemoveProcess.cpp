@@ -105,5 +105,38 @@ void SelectedRemoveProcess::SelectedRemove(TextEdit *textEdit) {
 		secondRowIndex--;
 	}
 }
+void SelectedRemoveProcess::SelectedRemoveAfterSetCaret(TextEdit *textEdit) {
+
+	Long startRowIndex = textEdit->textAreaSelected->GetStartRowIndex();
+	Long currentRowIndex = textEdit->caret->GetCurrentRowIndex();
+	Long characterIndex = textEdit->caret->GetCharacterIndex();
+	TextComponent *textComponent = textEdit->text->GetAt(currentRowIndex - 1);
+	TextComposite *textComposite = textComponent->GetComposite();
+	CString cString;
+	CFont font;
+	textEdit->caret->FontSetting(&font);
+	CClientDC dc(textEdit);
+	dc.SelectObject(font);
+	Long startCharacterIndex = textEdit->textAreaSelected->GetStartCharacterIndex();
+	if (startRowIndex == currentRowIndex && startCharacterIndex < characterIndex) {
+		cString = textComposite->MakeCString(startCharacterIndex);
+		textEdit->caret->SetCharacterIndex(startCharacterIndex);
+	}
+	else if (startRowIndex == currentRowIndex && startCharacterIndex > characterIndex) {
+		cString = textComposite->MakeCString(characterIndex);
+		textEdit->caret->SetCharacterIndex(characterIndex);
+	}
+	else if (startRowIndex > currentRowIndex) {
+		cString = textComposite->MakeCString(characterIndex);
+		textEdit->caret->SetCharacterIndex(characterIndex);
+	}
+	else {
+		cString = textComposite->MakeCString(characterIndex);
+		textEdit->caret->SetCharacterIndex(characterIndex);
+	}
+	CSize size = dc.GetTextExtent(cString);
+	textEdit->caret->SetCurrentX(size.cx);
+
+}
 //오후작업 Shift + Right 키후 BackSpace시 시작줄에서 현재줄로 이동 완료
 //Shift + Up ,Donw 작업 진행예정 , 선택된 글자 화면표시 진행예정

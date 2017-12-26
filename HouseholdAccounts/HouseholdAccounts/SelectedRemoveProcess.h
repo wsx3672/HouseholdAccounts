@@ -11,5 +11,6 @@ public:
 	SelectedRemoveProcess(const SelectedRemoveProcess& source);
 
 	void SelectedRemove(TextEdit *textEdit);
+	void SelectedRemoveAfterSetCaret(TextEdit *textEdit);
 };
 #endif // !_SELECTEDREMOVEPROCESS_H

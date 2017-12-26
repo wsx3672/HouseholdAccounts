@@ -21,6 +21,7 @@ void ShiftAndHomeKey::Action(TextEdit *textEdit) {
 	}
 	Long currentRowIndex = textEdit->caret->GetCurrentRowIndex();
 	Long currentCharacterIndex = textEdit->caret->GetCharacterIndex();
+	Long startRowIndex = textEdit->textAreaSelected->GetStartRowIndex();
 	Long startCharacterIndex = textEdit->textAreaSelected->GetStartCharacterIndex();
 	TextComponent *currentTextComponent = textEdit->text->GetAt(currentRowIndex - 1);
 	TextComposite *currentTextComposite = currentTextComponent->GetComposite();
@@ -36,8 +37,10 @@ void ShiftAndHomeKey::Action(TextEdit *textEdit) {
 		currentCharacterIndex--;
 	}
 	textEdit->caret->HomeKeyMovingCaret();
+	TextComponent *startTextComponent = textEdit->text->GetAt(startRowIndex - 1);
+	TextComposite *startTextComposite = startTextComponent->GetComposite();
 	currentCharacterIndex = textEdit->caret->GetCharacterIndex();
-	if (startCharacterIndex == currentCharacterIndex) {
+	if (currentTextComposite == startTextComposite && startCharacterIndex == currentCharacterIndex) {
 		textEdit->selectedArea = false;
 	}
 }

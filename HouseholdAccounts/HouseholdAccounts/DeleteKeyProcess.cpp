@@ -52,10 +52,13 @@ void DeleteKeyProcess::Delete(TextEdit *textEdit) {
 void DeleteKeyProcess::SelectionDelete(TextEdit *textEdit) {
 	SelectedRemoveProcess selectedRemoveProcess;
 	selectedRemoveProcess.SelectedRemove(textEdit);
+	Long currentRowIndex = textEdit->caret->GetCurrentRowIndex();
 	Long length = textEdit->text->GetLength();
-	if (length == 0) {
-		Row *row = new Row();
+	if (length < currentRowIndex) {
+		Row *row = new Row;
 		textEdit->text->Add(row);
 	}
+	selectedRemoveProcess.SelectedRemoveAfterSetCaret(textEdit);
+	textEdit->caret->CreateCaret();
 	textEdit->selectedArea = false;
 }

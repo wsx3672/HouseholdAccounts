@@ -21,6 +21,7 @@ void ShiftAndEndKey::Action(TextEdit *textEdit) {
 	}
 	Long currentRowIndex = textEdit->caret->GetCurrentRowIndex();
 	Long currentCharacterIndex = textEdit->caret->GetCharacterIndex();
+	Long startRowIndex = textEdit->textAreaSelected->GetStartRowIndex();
 	Long startCharacterIndex = textEdit->textAreaSelected->GetStartCharacterIndex();
 	Long length = textEdit->text->GetLength();
 	TextComponent *currentTextComponent = textEdit->text->GetAt(currentRowIndex - 1);
@@ -41,8 +42,10 @@ void ShiftAndEndKey::Action(TextEdit *textEdit) {
 		currentCharacterIndex++;
 	}
 	textEdit->caret->EndKeyMovingCaret();
+	TextComponent *startTextComponent = textEdit->text->GetAt(startRowIndex - 1);
+	TextComposite *startTextComposite = startTextComponent->GetComposite();
 	currentCharacterIndex = textEdit->caret->GetCharacterIndex();
-	if (startCharacterIndex == currentCharacterIndex) {
+	if (currentTextComposite == startTextComposite && startCharacterIndex == currentCharacterIndex) {
 		textEdit->selectedArea = false;
 	}
 }

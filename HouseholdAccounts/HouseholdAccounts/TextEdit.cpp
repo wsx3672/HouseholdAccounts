@@ -10,6 +10,8 @@
 #include "KeyAction.h"
 #include "TextAreaSelected.h"
 #include "Caret.h"
+#include "SingleByteCharacterAddProcess.h"
+#include "SelectedRemoveProcess.h"
 #include <cstring>
 using namespace std;
 BEGIN_MESSAGE_MAP(TextEdit, CWnd)
@@ -41,31 +43,47 @@ void TextEdit::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 	this->Invalidate();
 }
 void TextEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
-	char nChar1 = nChar;
+
+	char addChar = nChar;
 	if (this->keyDownCheck < 0 && this->writingKoreanState == false) {
-		SingleByteCharacter *singleByteCharacter = new SingleByteCharacter(nChar1);
+		Long length = this->textAreaSelected->GetLength();
 		Long currentRowIndex = this->caret->GetCurrentRowIndex();
-		TextComponent *textComponent = this->text->GetAt(currentRowIndex - 1);
-		TextComposite *textComposite = textComponent->GetComposite();
-		Long rowLegnth = textComposite->GetLength();
-		Long position;
-		Long characterIndex = this->caret->GetCharacterIndex();
-		if (rowLegnth == characterIndex) {
-			position = textComponent->Add(singleByteCharacter);
-			this->caret->SetCharacterIndex(position);
+		if (length > 0) {
+			SelectedRemoveProcess selectedRemoveProcess;
+			selectedRemoveProcess.SelectedRemove(this);
+			length = this->text->GetLength();
+			if (length  < currentRowIndex) {
+				Row *row = new Row;
+				this->text->Add(row);
+			}
+			selectedRemoveProcess.SelectedRemoveAfterSetCaret(this);
+			this->selectedArea = false;
 		}
-		else {
-		    position = textComponent->Insert(characterIndex , singleByteCharacter);
-			this->caret->SetCharacterIndex(position +1);
+		SingleByteCharacterAddProcess singleByteCharacterAddProcess;
+		Long position = singleByteCharacterAddProcess.SingleByteCharacterAdd(addChar, this);
+		if (position != -1) {
+			this->caret->CreateCaret();
+			this->caret->RightMovingCaret();
 		}
-		this->caret->CreateCaret();
-		this->caret->RightMovingCaret();
 	}
 	this->Invalidate();
 }
 Long TextEdit::OnComposition(WPARAM wParam, LPARAM lParam) {
 	HIMC hIMC = ImmGetContext(GetSafeHwnd());
 
+	Long length = this->textAreaSelected->GetLength();
+	Long currentRowIndex = this->caret->GetCurrentRowIndex();
+	if (length > 0) {
+		SelectedRemoveProcess selectedRemoveProcess;
+		selectedRemoveProcess.SelectedRemove(this);
+		length = this->text->GetLength();
+		if (length  < currentRowIndex) {
+			Row *row = new Row;
+			this->text->Add(row);
+		}
+		selectedRemoveProcess.SelectedRemoveAfterSetCaret(this);
+		this->selectedArea = false;
+	}
 	WritingKorean *writingKorean = new WritingKorean();
 	writingKorean->WritingHanguel(wParam, lParam, hIMC, this);
 

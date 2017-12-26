@@ -169,6 +169,7 @@
     <ClInclude Include="ShiftAndRightArrowKey.h" />
     <ClInclude Include="ShiftAndUpArrowKey.h" />
     <ClInclude Include="SingleByteCharacter.h" />
+    <ClInclude Include="SingleByteCharacterAddProcess.h" />
     <ClInclude Include="Text.h" />
     <ClInclude Include="TextAreaSelected.h" />
     <ClInclude Include="TextAreaSelectedProcess.h" />
@@ -207,6 +208,7 @@
     <ClCompile Include="ShiftAndRightArrowKey.cpp" />
     <ClCompile Include="ShiftAndUpArrowKey.cpp" />
     <ClCompile Include="SingleByteCharacter.cpp" />
+    <ClCompile Include="SingleByteCharacterAddProcess.cpp" />
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="TextAreaSelected.cpp" />
     <ClCompile Include="TextAreaSelectedProcess.cpp" />

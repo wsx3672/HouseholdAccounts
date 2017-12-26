@@ -6,6 +6,9 @@
 #include "TextEdit.h"
 #include "SingleByteCharacter.h"
 #include "Caret.h"
+#include "TextAreaSelected.h"
+#include "SelectedRemoveProcess.h"
+#include "Row.h"
 EnterKey::EnterKey() {
 }
 EnterKey::~EnterKey() {
@@ -16,7 +19,20 @@ EnterKey& EnterKey::operator=(const EnterKey& source) {
 	return *this;
 }
 void EnterKey::Action(TextEdit *textEdit) {
+
+	Long length = textEdit->textAreaSelected->GetLength();
 	Long currentRowIndex = textEdit->caret->GetCurrentRowIndex();
+	if (length > 0) {
+		SelectedRemoveProcess selectedRemoveProcess;
+		selectedRemoveProcess.SelectedRemove(textEdit);
+		length = textEdit->text->GetLength();
+		if(length  < currentRowIndex){
+			Row *row = new Row;
+			textEdit->text->Add(row);
+		}
+		selectedRemoveProcess.SelectedRemoveAfterSetCaret(textEdit);
+		textEdit->selectedArea = false;
+	}
 	Long characterIndex = textEdit->caret->GetCharacterIndex();
 	TextComponent *textComponent = textEdit->text->GetAt(currentRowIndex - 1);
 	TextComposite *textComposite = textComponent->GetComposite();
@@ -45,7 +61,7 @@ void EnterKey::Action(TextEdit *textEdit) {
 		textComposite->Remove(temp);
 		rowLength--;
 	}
-	Long length = textEdit->text->GetLength();
+	 length = textEdit->text->GetLength();
 	if (length == currentRowIndex) {
 		currentRowIndex = textEdit->text->Add(row);
 		textEdit->caret->SetCurrentRowIndex(currentRowIndex);
