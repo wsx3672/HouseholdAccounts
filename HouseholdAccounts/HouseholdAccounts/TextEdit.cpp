@@ -12,6 +12,7 @@
 #include "Caret.h"
 #include "SingleByteCharacterAddProcess.h"
 #include "SelectedRemoveProcess.h"
+#include "Finder.h"
 #include <cstring>
 using namespace std;
 BEGIN_MESSAGE_MAP(TextEdit, CWnd)
@@ -32,6 +33,7 @@ TextEdit::TextEdit(HouseholdAccountsForm *householdAccountsForm) {
 	this->text = NULL;
 	this->caret = NULL;
 	this->textAreaSelected = NULL;
+	this->finder = NULL;
 	this->keyDownCheck = -1;
 	this->writingKoreanState = false;
 	this->selectedArea = false;
@@ -77,10 +79,15 @@ void TextEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
 }
 void TextEdit::OnLButtonDown(UINT nFlags, CPoint point) {
 	this->SetStartXAndY(nFlags, point);
+
+	this->finder->MouseLButtonClick(this->startX, this->startY);
+
+	this->caret->CreateCaret();
 	CWnd::OnLButtonDown(nFlags, point);
 }
 void TextEdit::OnLButtonUp(UINT nFlags, CPoint point) {
 	this->SetCurrentXAndY(nFlags, point);
+
 	CWnd::OnLButtonUp(nFlags, point);
 }
 void TextEdit::OnMouseMove(UINT nFlags, CPoint point) {
@@ -149,6 +156,7 @@ int TextEdit::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	this->caret = new Caret(this);
 	this->textAreaSelected = new TextAreaSelected();
 	this->caret->CreateCaret();
+	this->finder = new Finder(this);
 	return 0;
 }
 void TextEdit::SetStartXAndY(UINT nFlags, CPoint point){
@@ -171,6 +179,9 @@ void TextEdit::OnClose() {
 	}
 	if (this->textAreaSelected != NULL) {
 		delete this->textAreaSelected;
+	}
+	if (this->finder != NULL) {
+		delete this->finder;
 	}
 	CWnd::OnClose();
 }
