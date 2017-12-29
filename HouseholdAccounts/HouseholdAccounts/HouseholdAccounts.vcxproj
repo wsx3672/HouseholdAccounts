@@ -145,6 +145,7 @@
     <ClInclude Include="BackSpaceKey.h" />
     <ClInclude Include="Caret.h" />
     <ClInclude Include="Character.h" />
+    <ClInclude Include="CtrlAndAKey.h" />
     <ClInclude Include="DeleteKeyProcess.h" />
     <ClInclude Include="SelectedBackSpaceKey.h" />
     <ClInclude Include="SelectedRemoveProcess.h" />
@@ -184,6 +185,7 @@
     <ClCompile Include="BackSpaceKey.cpp" />
     <ClCompile Include="Caret.cpp" />
     <ClCompile Include="Character.cpp" />
+    <ClCompile Include="CtrlAndAKey.cpp" />
     <ClCompile Include="DeleteKeyProcess.cpp" />
     <ClCompile Include="SelectedBackSpaceKey.cpp" />
     <ClCompile Include="SelectedRemoveProcess.cpp" />

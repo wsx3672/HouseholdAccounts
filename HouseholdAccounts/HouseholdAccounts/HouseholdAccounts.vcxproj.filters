@@ -129,6 +129,9 @@
     <ClInclude Include="SingleByteCharacterAddProcess.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="CtrlAndAKey.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HouseholdAccountsApp.cpp">
@@ -240,6 +243,9 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="SingleByteCharacterAddProcess.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="CtrlAndAKey.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

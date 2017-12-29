@@ -372,7 +372,10 @@ void Caret::EndKeyMovingCaret() {
 	TextComponent *textComponent = this->textEdit->text->GetAt(this->currentRowIndex - 1);
 	TextComposite *textComposite = textComponent->GetComposite();
 	Long length = textComposite->GetLength();
-	CString cString = textComposite->MakeCString();
+	if (this->currentRowIndex < this->textEdit->text->GetLength()) {
+		length--;
+	}
+	CString cString = textComposite->MakeCString(length);
 	size = dc.GetTextExtent(cString);
 	this->currentX = size.cx;
 	this->characterIndex = length;

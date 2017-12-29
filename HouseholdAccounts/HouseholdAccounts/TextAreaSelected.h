@@ -27,6 +27,10 @@ public:
 	TextComponent* GetAt(Long index);
 
 	void  Setting(Caret *caret);
+	Long SetStartRowIndex(Long rowIndex);
+	Long SetStartX(Long x);
+	Long SetStartY(Long y);
+	Long SetStartCharacterIndex(Long characterIndex);
 	Long GetStartRowIndex() const;
 	Long GetStartX() const;
 	Long GetStartY() const;

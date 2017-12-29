@@ -28,7 +28,7 @@ void EnterKey::Action(TextEdit *textEdit) {
 		length = textEdit->text->GetLength();
 		if(length  < currentRowIndex){
 			Row *row = new Row;
-			textEdit->text->Add(row);
+			currentRowIndex = textEdit->text->Add(row);
 		}
 		selectedRemoveProcess.SelectedRemoveAfterSetCaret(textEdit);
 		textEdit->selectedArea = false;

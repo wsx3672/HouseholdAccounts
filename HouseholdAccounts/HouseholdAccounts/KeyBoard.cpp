@@ -19,6 +19,7 @@
 #include "ShiftAndDownArrowKey.h"
 #include "ShiftAndHomeKey.h"
 #include "ShiftAndEndKey.h"
+#include "CtrlAndAKey.h"
 KeyBoard::KeyBoard() {
 	this->keyAction = 0;
 }
@@ -91,6 +92,10 @@ KeyAction* KeyBoard::Action(TextEdit *textEdit, UINT nChar, UINT nRepCnt, UINT n
 			this->keyAction = new ShiftAndEndKey; break;
 		}
 	case VK_DELETE:this->keyAction = new DeleteKey; break;
+	case 0x41 :
+		if (nFlags && GetKeyState(VK_CONTROL) < 0) {
+			this->keyAction = new CtrlAndAKey; break;
+		}
 	default: break;
 	}
 	return this->keyAction;

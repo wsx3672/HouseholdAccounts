@@ -18,6 +18,9 @@ BEGIN_MESSAGE_MAP(TextEdit, CWnd)
 	ON_WM_CREATE()
 	ON_WM_PAINT()
 	ON_MESSAGE(WM_IME_COMPOSITION, OnComposition)
+	ON_WM_LBUTTONUP()
+	ON_WM_LBUTTONDOWN()
+	ON_WM_MOUSEMOVE()
 	ON_WM_KEYDOWN()
 	ON_WM_CLOSE()
 	ON_WM_CHAR()
@@ -32,6 +35,10 @@ TextEdit::TextEdit(HouseholdAccountsForm *householdAccountsForm) {
 	this->keyDownCheck = -1;
 	this->writingKoreanState = false;
 	this->selectedArea = false;
+	this->startX = -1;
+	this->startY = -1;
+	this->currentX = -1;
+	this->currentY = -1;
 }
 void TextEdit::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 	this->keyDownCheck = -1;
@@ -67,6 +74,18 @@ void TextEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
 		}
 	}
 	this->Invalidate();
+}
+void TextEdit::OnLButtonDown(UINT nFlags, CPoint point) {
+	this->SetStartXAndY(nFlags, point);
+	CWnd::OnLButtonDown(nFlags, point);
+}
+void TextEdit::OnLButtonUp(UINT nFlags, CPoint point) {
+	this->SetCurrentXAndY(nFlags, point);
+	CWnd::OnLButtonUp(nFlags, point);
+}
+void TextEdit::OnMouseMove(UINT nFlags, CPoint point) {
+	
+	CWnd::OnMouseMove(nFlags, point);
 }
 Long TextEdit::OnComposition(WPARAM wParam, LPARAM lParam) {
 	HIMC hIMC = ImmGetContext(GetSafeHwnd());
@@ -117,7 +136,6 @@ void TextEdit::OnPaint() {
 	if (this->selectedArea == true) {
 		this->textAreaSelected->SelectedTextArea(this,&dc);
 	}
-	//dc.DrawText("FSDFS", CRect(100, 200, 300, 400),DT_EXPANDTABS);
 	CWnd::OnPaint();
 }
 int TextEdit::OnCreate(LPCREATESTRUCT lpCreateStruct) {
@@ -132,6 +150,14 @@ int TextEdit::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 	this->textAreaSelected = new TextAreaSelected();
 	this->caret->CreateCaret();
 	return 0;
+}
+void TextEdit::SetStartXAndY(UINT nFlags, CPoint point){
+	this->startX = point.x;
+	this->startY = point.y;
+}
+void TextEdit::SetCurrentXAndY(UINT nFlags, CPoint point) {
+	this->currentX = point.x;
+	this->currentY = point.y;
 }
 void TextEdit::OnClose() {
 	if (this->text != NULL) {

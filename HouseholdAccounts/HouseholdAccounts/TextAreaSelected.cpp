@@ -132,3 +132,19 @@ TextComponent* TextAreaSelected::operator[](Long index) {
 TextComponent* TextAreaSelected::Clone() const {
 	return new TextAreaSelected(*this);
 }
+Long TextAreaSelected::SetStartRowIndex(Long rowIndex) {
+	this->startRowIndex = rowIndex;
+	return this->startRowIndex;
+}
+Long TextAreaSelected::SetStartX(Long x) {
+	this->startX = x;
+	return this->startX;
+}
+Long TextAreaSelected::SetStartY(Long y) {
+	this->startY = y;
+	return this->startY;
+}
+Long TextAreaSelected::SetStartCharacterIndex(Long characterIndex) {
+	this->startCharacterIndex = characterIndex;
+	return startCharacterIndex;
+}
