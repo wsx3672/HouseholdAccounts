@@ -91,7 +91,7 @@ void TextEdit::OnLButtonUp(UINT nFlags, CPoint point) {
 	CWnd::OnLButtonUp(nFlags, point);
 }
 void TextEdit::OnMouseMove(UINT nFlags, CPoint point) {
-	
+	this->SetCurrentXAndY(nFlags, point);
 	CWnd::OnMouseMove(nFlags, point);
 }
 Long TextEdit::OnComposition(WPARAM wParam, LPARAM lParam) {

@@ -12,6 +12,7 @@ public:
 	Finder& operator = (const Finder& source);
 
 	void MouseLButtonClick(Long startX, Long startY);
+	void MouseLButtonDrag(Long currentX, Long currentY);
 private:
 	TextEdit *textEdit;
 };

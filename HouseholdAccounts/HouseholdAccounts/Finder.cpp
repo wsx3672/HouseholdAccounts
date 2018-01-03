@@ -27,7 +27,6 @@ void Finder::MouseLButtonClick(Long startX, Long startY) {
 	TextComposite *currentTextComposite = currentTextComponent->GetComposite();
 	Long rowLength = currentTextComposite->GetLength();
 	Long i = 0;
-	Long x = 0;
 	CSize size;
 	CFont font;
 	this->textEdit->caret->FontSetting(&font);
@@ -35,20 +34,24 @@ void Finder::MouseLButtonClick(Long startX, Long startY) {
 	dc.SelectObject(font);
 	CString cString;
 	Long characterIndex;
-	while (i < rowLength && x <= startX) {
-		cString = currentTextComposite->MakeCString(i);
-		size = dc.GetTextExtent(cString);
+	Long x = 0;
+	Long previousX = 0; 
+	while (i < rowLength && x < startX) {
+		cString = currentTextComposite->MakeCString(i+1);
+		size = dc.GetTextExtent(cString); 
+		previousX = x;
 		x = size.cx;
 		i++;
 	}
-	if (x <= startX) {
+	if (x < startX) {
+		previousX = x;
 		characterIndex = rowLength;
 	}
 	else {
-		characterIndex = i;
+		characterIndex = i-1;
 	}
 	this->textEdit->caret->SetCharacterIndex(characterIndex);
 	this->textEdit->caret->SetCurrentRowIndex(rowIndex);
 	this->textEdit->caret->SetCurrentY((rowIndex-1) * 17);
-	this->textEdit->caret->SetCurrentX(x);
+	this->textEdit->caret->SetCurrentX(previousX);
 }
