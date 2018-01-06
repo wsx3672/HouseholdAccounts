@@ -21,18 +21,12 @@ void WritingKorean::WritingHanguel(WPARAM wParam, LPARAM lParam, HIMC hIMC, Text
 		ImmGetCompositionString(hIMC, GCS_RESULTSTR, buffer, bufferLength);
 		writeKoreanTextProcess.EndComposition(textEdit, bufferLength, buffer);
 		textEdit->caret->RightMovingCaret(); 
-		//Long characterIndex = textEdit->caret->GetCharacterIndex();
-		//characterIndex--;
-		//characterIndex = textEdit->caret->SetCharacterIndex(characterIndex);
 	}
 	else if (lParam & GCS_COMPSTR) { 
 		bufferLength = ImmGetCompositionString(hIMC, GCS_COMPSTR, NULL, 0);
 		ImmGetCompositionString(hIMC, GCS_COMPSTR, buffer, bufferLength);
 		if (textEdit->writingKoreanState == false) { //조합 시작일때 
 			writeKoreanTextProcess.StartComposition(textEdit, bufferLength, buffer); 
-			//Long characterIndex = textEdit->caret->GetCharacterIndex();
-			//characterIndex++;
-			//characterIndex = textEdit->caret->SetCharacterIndex(characterIndex);
 		}
 		else {
 			//조합중일때

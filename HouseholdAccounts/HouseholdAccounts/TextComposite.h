@@ -1,3 +1,10 @@
+//TextComposite.h
+/*
+파일명 : TextComposite.h
+기능 : Composite 패턴을 구상하기 위한 복합객체 클래스
+작성자 : 박상민
+작성일자 : 2017년 12월 4일
+*/
 #ifndef _TEXTCOMPOSITE_H
 #define _TEXTCOMPOSITE_H
 typedef signed long int Long;

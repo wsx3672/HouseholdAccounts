@@ -1,3 +1,10 @@
+//TextEdit.h
+/*
+파일명 : TextEdit.h
+기능 : 텍스트 출력화면 클래스
+작성자 : 박상민
+작성일자 : 2017년 12월 3일
+*/
 #ifndef _TEXTEDIT_H
 #define _TEXTEDIT_H
 

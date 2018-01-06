@@ -1,3 +1,10 @@
+//Finder.h
+/*
+파일명 : Finder.h
+기능 : 현재 마우스 위치에 있는 글자를 찾아주는 클래스
+작성자 : 박상민
+작성일자 : 2017년 12월 29일
+*/
 #ifndef _FINDER_H
 #define _FINDER_H
 

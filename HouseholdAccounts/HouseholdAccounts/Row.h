@@ -1,3 +1,10 @@
+//Row.h
+/*
+파일명 : Row.h
+기능 : 한줄에 해당하는 Character들을 관리하는 클래스
+작성자 : 박상민
+작성일자 : 2017년12월3일
+*/
 #ifndef _ROW_H
 #define _ROW_H
 

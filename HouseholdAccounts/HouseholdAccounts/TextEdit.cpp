@@ -91,7 +91,15 @@ void TextEdit::OnLButtonUp(UINT nFlags, CPoint point) {
 	CWnd::OnLButtonUp(nFlags, point);
 }
 void TextEdit::OnMouseMove(UINT nFlags, CPoint point) {
-	this->SetCurrentXAndY(nFlags, point);
+	//마우스 왼쪽버튼을 누르고 드래그했을때 
+
+	if (nFlags == MK_LBUTTON ) {
+
+		this->SetCurrentXAndY(nFlags, point);
+		this->finder->MouseLButtonDrag(this->currentX, this->currentY);
+
+		this->Invalidate();
+	}
 	CWnd::OnMouseMove(nFlags, point);
 }
 Long TextEdit::OnComposition(WPARAM wParam, LPARAM lParam) {

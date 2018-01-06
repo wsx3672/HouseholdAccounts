@@ -1,3 +1,10 @@
+//Caret.h
+/*
+파일명 : Caret.h
+기능 : 텍스트입력시 현재 어느위치에서 작업하는지 보여주기위한 캐럿클래스
+작성자 : 박상민
+작성일자 : 2017년 12월 6일
+*/
 #ifndef _CARET_H
 #define _CARET_H
 typedef signed long int Long;

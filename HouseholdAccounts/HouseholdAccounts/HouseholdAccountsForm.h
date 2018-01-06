@@ -1,4 +1,10 @@
 //HouseholdAccountsForm.h
+/*
+파일명 : HouseholdAccountsForm.h
+기능 : 화면 출력을 위한 클래스
+작성자 :박상민
+작성일자 : 2017년 12월 2일 
+*/
 #ifndef _HOUSEHOLDACCOUNTSFORM_H
 #define _HOUSEHOLDACCOUNTSFORM_H
 

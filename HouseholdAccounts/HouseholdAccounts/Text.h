@@ -1,3 +1,10 @@
+//Text.h
+/*
+파일명 : Text.h
+기능 : Row들을 관리하는 클래스
+작성자 : 박상민
+작성일자  : 2017년 12월 4일 
+*/
 #ifndef _TEXT_H
 #define _TEXT_H
 

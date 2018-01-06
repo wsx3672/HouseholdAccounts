@@ -1,5 +1,10 @@
 //WriteKoreanTextProcess.h
-
+/*
+파일명 : WriteKoreanTextProcess.h
+기능 : 한글입력시 각각에 상태에 맞게 처리되는 클래스
+작성자 : 박상민
+작성일자 : 2017년 12월 6일
+*/
 #ifndef _WRITEKOREANTEXTPROCESS_H
 #define _WRITEKOREANTEXTPROCESS_H
 

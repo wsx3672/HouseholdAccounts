@@ -1,3 +1,10 @@
+//DoubleByteCharacter.h
+/*
+파일명 : DoubleByteCharacter.h
+기능 : 2바이트 메모리를 가진 char를 관리하는 클래스
+작성자 : 박상민
+작성일자 : 2017년 12월 3일
+*/
 #ifndef _DOUBLEBYTECHARACTER_H
 #define _DOUBLEBYTECHARACTER_H
 
