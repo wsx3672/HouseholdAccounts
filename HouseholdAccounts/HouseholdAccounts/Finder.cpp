@@ -84,20 +84,24 @@ void Finder::MouseLButtonDrag(Long currentX, Long currentY) {
 	dc.SelectObject(font);
 	char temp;
 	char *temps;
+	Character *character = 0;
+	Long ret;
+	DoubleByteCharacter *doubleByteCharacter;
+	SingleByteCharacter *singleByteCharacter;
 	cString = currentTextComposite->MakeCString(currentCharacterIndex);
 	stringSize = dc.GetTextExtent(cString);
-
+	length = currentTextComposite->GetLength();
 	if (startX > currentX && currentCharacterIndex != 0) {
 		textComponent = currentTextComposite->GetAt(currentCharacterIndex - 1);
-		Character *character = static_cast<Character*>(textComponent);
-		Long ret = character->CheckingSingleAndDouble();
+		character = static_cast<Character*>(textComponent);
+		ret = character->CheckingSingleAndDouble();
 		if (ret == 0) {
-			SingleByteCharacter *singleByteCharacter = static_cast<SingleByteCharacter*>(character);
+			singleByteCharacter = static_cast<SingleByteCharacter*>(character);
 			temp = singleByteCharacter->GetCharacter();
 			size = dc.GetTextExtent(temp);
 		}
 		else {
-			DoubleByteCharacter *doubleByteCharacter = static_cast<DoubleByteCharacter*>(character);
+			doubleByteCharacter = static_cast<DoubleByteCharacter*>(character);
 			temps = doubleByteCharacter->GetCharacter();
 			temps[2] = '\0';
 			size = dc.GetTextExtent(temps);
@@ -105,6 +109,26 @@ void Finder::MouseLButtonDrag(Long currentX, Long currentY) {
 		if (stringSize.cx - (size.cx / 2) > currentX) {
 			this->textEdit->textAreaSelected->Add(textComponent);
 			this->textEdit->caret->LeftArrowKeyMovingCaret();
+		}
+	}
+	if (startX < currentX && length !=currentCharacterIndex) {
+		textComponent = currentTextComposite->GetAt(currentCharacterIndex);
+		character = static_cast<Character*>(textComponent);
+		ret = character->CheckingSingleAndDouble();
+		if (ret == 0) {
+			singleByteCharacter = static_cast<SingleByteCharacter*>(character);
+			temp = singleByteCharacter->GetCharacter();
+			size = dc.GetTextExtent(temp);
+		}
+		else {
+			doubleByteCharacter = static_cast<DoubleByteCharacter*>(character);
+			temps = doubleByteCharacter->GetCharacter();
+			temps[2] = '\0';
+			size = dc.GetTextExtent(temps);
+		}
+		if (stringSize.cx + (size.cx / 2) < currentX) {
+			this->textEdit->textAreaSelected->Add(textComponent);
+			this->textEdit->caret->RightArrowKeyMovingCaret();
 		}
 	}
 	length = this->textEdit->textAreaSelected->GetLength();

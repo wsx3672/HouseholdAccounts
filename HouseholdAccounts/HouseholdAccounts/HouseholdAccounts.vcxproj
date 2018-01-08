@@ -148,6 +148,7 @@
     <ClInclude Include="CtrlAndAKey.h" />
     <ClInclude Include="DeleteKeyProcess.h" />
     <ClInclude Include="Finder.h" />
+    <ClInclude Include="MouseDragMovingCaret.h" />
     <ClInclude Include="SelectedBackSpaceKey.h" />
     <ClInclude Include="SelectedRemoveProcess.h" />
     <ClInclude Include="ShiftAndDownArrowKey.h" />
