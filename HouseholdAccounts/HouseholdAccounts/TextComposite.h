@@ -26,15 +26,18 @@ public:
 	virtual Long Remove(Long index);
 	virtual Long Modify(Long index, TextComponent *textComponent);
 	virtual Long Insert(Long index, TextComponent *textComponent);
+	virtual void DeleteAllItems();
 	Long GetCapacity();
 	Long GetLength();
-	TextComponent* GetAt(Long index);
-	TextComponent* operator[](Long ingex);
+	TextComponent *GetAt(Long index);
+	TextComponent *operator[](Long ingex);
 	TextComposite(Long capacity = 10000 );
 	CString MakeCString();
-	CString MakeCString(Long length);
+	CString MakeCString(Long index);
+//CString MakeCString(Long length);
 	CString MakeCString(Long firstIndex, Long secondIndex);
 	Long GetSelectedWidth(CDC *cdc);
+	Long Find(TextComponent *textComponent);
 protected:
 	Array<TextComponent*> textComponents;
 	Long capacity;

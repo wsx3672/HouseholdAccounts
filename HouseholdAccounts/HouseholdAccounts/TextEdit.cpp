@@ -79,10 +79,16 @@ void TextEdit::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags) {
 }
 void TextEdit::OnLButtonDown(UINT nFlags, CPoint point) {
 	this->SetStartXAndY(nFlags, point);
-
+	Long length = this->textAreaSelected->GetLength();
+	if (length != 0) {
+		this->textAreaSelected->DeleteAllItems();
+		length = this->textAreaSelected->GetLength();
+		this->selectedArea = false;
+	}
 	this->finder->MouseLButtonClick(this->startX, this->startY);
 
 	this->caret->CreateCaret();
+	this->Invalidate();
 	CWnd::OnLButtonDown(nFlags, point);
 }
 void TextEdit::OnLButtonUp(UINT nFlags, CPoint point) {
@@ -96,8 +102,9 @@ void TextEdit::OnMouseMove(UINT nFlags, CPoint point) {
 	if (nFlags == MK_LBUTTON ) {
 
 		this->SetCurrentXAndY(nFlags, point);
-		this->finder->MouseLButtonDrag(this->currentX, this->currentY);
-
+		if (this->startX != -1 && this->currentX != -1) {
+			this->finder->MouseLButtonDrag(this->currentX, this->currentY);
+		}
 		this->Invalidate();
 	}
 	CWnd::OnMouseMove(nFlags, point);

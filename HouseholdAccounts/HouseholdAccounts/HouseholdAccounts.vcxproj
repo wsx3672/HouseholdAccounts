@@ -190,6 +190,7 @@
     <ClCompile Include="CtrlAndAKey.cpp" />
     <ClCompile Include="DeleteKeyProcess.cpp" />
     <ClCompile Include="Finder.cpp" />
+    <ClCompile Include="MouseDragMovingCaret.cpp" />
     <ClCompile Include="SelectedBackSpaceKey.cpp" />
     <ClCompile Include="SelectedRemoveProcess.cpp" />
     <ClCompile Include="ShiftAndDownArrowKey.cpp" />

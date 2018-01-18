@@ -29,9 +29,9 @@ public:
 	virtual Long Remove(Long index);
 	virtual Long Modify(Long index, TextComponent *textComponent);
 	virtual Long Insert(Long index, TextComponent *textComponent);
-
+	virtual Long Find(TextComponent *textComponent);
 	virtual TextComponent* Clone() const;
-	
+	virtual void DeleteAllItems();
 	TextComponent* GetAt(Long index);
 
 	void  Setting(Caret *caret);

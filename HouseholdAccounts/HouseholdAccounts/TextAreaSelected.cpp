@@ -53,6 +53,10 @@ Long TextAreaSelected::Insert(Long index, TextComponent *textComponent) {
 	Long position = TextComposite::Insert(index, textComponent);
 	return position;
 }
+Long TextAreaSelected::Find(TextComponent *textComponent) {
+	Long position = TextComposite::Find(textComponent);
+	return position;
+}
 void TextAreaSelected::SelectedTextArea(TextEdit *textEdit, CDC *pDC) {
 	CString cString;
 	CSize size;
@@ -147,4 +151,7 @@ Long TextAreaSelected::SetStartY(Long y) {
 Long TextAreaSelected::SetStartCharacterIndex(Long characterIndex) {
 	this->startCharacterIndex = characterIndex;
 	return startCharacterIndex;
+}
+void TextAreaSelected::DeleteAllItems() {
+	TextComposite::DeleteAllItems();
 }

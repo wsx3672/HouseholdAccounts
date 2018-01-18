@@ -172,3 +172,22 @@ Long TextComposite::Insert(Long index, TextComponent *textComponent) {
 	this->capacity++;
 	return position;
 }
+Long TextComposite::Find(TextComponent *textComponent) {
+	Long index = -1;
+	Long i = 0;
+	TextComponent *compareTextComponent = 0;
+	while (i < this->length && compareTextComponent != textComponent) {
+		compareTextComponent = this->GetAt(i);
+		i++;
+	}
+	if (compareTextComponent == textComponent) {
+		index = 1;
+	}
+	return index;
+}
+void TextComposite::DeleteAllItems() {
+	while ( this->length != 0) {
+		this->textComponents.Delete(0);
+		this->length--;
+	}
+}

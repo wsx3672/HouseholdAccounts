@@ -12,14 +12,16 @@
 typedef signed long int Long;
 class TextEdit;
 class TextComposite;
-
+class CClientDC;
+class CSize;
 class MouseDragMovingCaret {
+public:
 	MouseDragMovingCaret();
 	~MouseDragMovingCaret();
 	MouseDragMovingCaret(const MouseDragMovingCaret& souce);
 
-	void LeftMovingCaret(TextEdit *textEdit , TextComposite *currentTextComposite);
-	void RightMovingCaret(TextEdit *textEdit, TextComposite *currentTextComposite);
+	void LeftMovingCaret(TextEdit *textEdit , CClientDC *cClientDC ,TextComposite *currentTextComposite , CSize *stringSize,  Long currentCharacterIndex , Long currentX);
+	void RightMovingCaret(TextEdit *textEdit, CClientDC *cClientDC ,TextComposite *currentTextComposite , CSize *stringSize,Long currentCharacterIndex , Long currentX);
 	
 };
 #endif // !_MOUSEDRAGMOVINGCARET_H

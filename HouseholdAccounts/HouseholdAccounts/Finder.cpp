@@ -8,6 +8,7 @@
 #include "Character.h"
 #include "SingleByteCharacter.h"
 #include "DoubleByteCharacter.h"
+#include "MouseDragMovingCaret.h"
 Finder::Finder(TextEdit *textEdit) {
 	this->textEdit = textEdit;
 }
@@ -66,7 +67,7 @@ void Finder::MouseLButtonDrag(Long currentX, Long currentY) {
 	Long startX = this->textEdit->textAreaSelected->GetStartX();
 	Long startY = this->textEdit->textAreaSelected->GetStartY();
 	Long currentCharacterIndex = this->textEdit->caret->GetCharacterIndex();
-	Long startRowIndex = startY / 17;
+	//Long startRowIndex = startY / 17;
 	Long currentRowIndex = 1 + (currentY / 17);
 	Long length = this->textEdit->text->GetLength();
 	if (currentRowIndex > length) {
@@ -74,63 +75,41 @@ void Finder::MouseLButtonDrag(Long currentX, Long currentY) {
 	}
 	TextComponent *currentTextComponent = this->textEdit->text->GetAt(currentRowIndex - 1);
 	TextComposite *currentTextComposite = currentTextComponent->GetComposite();
-	TextComponent *textComponent = 0;
 	CClientDC  dc(this->textEdit);
-	CSize size;
 	CSize stringSize;
+	CSize currentCharacterSize ;
 	CFont font;
-	CString cString;
+	CString cString = '\0';
+	CString currentCharacterString = '\0';
 	this->textEdit->caret->FontSetting(&font);
 	dc.SelectObject(font);
-	char temp;
-	char *temps;
-	Character *character = 0;
-	Long ret;
-	DoubleByteCharacter *doubleByteCharacter;
-	SingleByteCharacter *singleByteCharacter;
-	cString = currentTextComposite->MakeCString(currentCharacterIndex);
+	MouseDragMovingCaret mouseDragMovingCaret;
+	Long ret = -1;
+	if (currentCharacterIndex != 0) {
+		cString = currentTextComposite->MakeCString(currentCharacterIndex);
+	}
+	//////////////////// currentCharacterIndex가 0일때 문제
+	if (cString != '\0') {
+		currentCharacterString = currentTextComposite->MakeCString(currentCharacterIndex - 1, currentCharacterIndex);
+	}
+	
 	stringSize = dc.GetTextExtent(cString);
+	currentCharacterSize = dc.GetTextExtent(currentCharacterString);
 	length = currentTextComposite->GetLength();
-	if (startX > currentX && currentCharacterIndex != 0) {
-		textComponent = currentTextComposite->GetAt(currentCharacterIndex - 1);
-		character = static_cast<Character*>(textComponent);
-		ret = character->CheckingSingleAndDouble();
-		if (ret == 0) {
-			singleByteCharacter = static_cast<SingleByteCharacter*>(character);
-			temp = singleByteCharacter->GetCharacter();
-			size = dc.GetTextExtent(temp);
-		}
-		else {
-			doubleByteCharacter = static_cast<DoubleByteCharacter*>(character);
-			temps = doubleByteCharacter->GetCharacter();
-			temps[2] = '\0';
-			size = dc.GetTextExtent(temps);
-		}
-		if (stringSize.cx - (size.cx / 2) > currentX) {
-			this->textEdit->textAreaSelected->Add(textComponent);
-			this->textEdit->caret->LeftArrowKeyMovingCaret();
+	///////////왼쪽 Moving이 아니면 currentCharacterSize 닫시 구해야함
+	if (currentCharacterIndex != 0 && stringSize.cx > currentX) {//&& length != currentCharacterIndex) {
+		if (stringSize.cx - (currentCharacterSize.cx / 2) > currentX) {
+			mouseDragMovingCaret.LeftMovingCaret(this->textEdit, &dc, currentTextComposite, &stringSize, currentCharacterIndex, currentX);
 		}
 	}
-	if (startX < currentX && length !=currentCharacterIndex) {
-		textComponent = currentTextComposite->GetAt(currentCharacterIndex);
-		character = static_cast<Character*>(textComponent);
-		ret = character->CheckingSingleAndDouble();
-		if (ret == 0) {
-			singleByteCharacter = static_cast<SingleByteCharacter*>(character);
-			temp = singleByteCharacter->GetCharacter();
-			size = dc.GetTextExtent(temp);
-		}
-		else {
-			doubleByteCharacter = static_cast<DoubleByteCharacter*>(character);
-			temps = doubleByteCharacter->GetCharacter();
-			temps[2] = '\0';
-			size = dc.GetTextExtent(temps);
-		}
-		if (stringSize.cx + (size.cx / 2) < currentX) {
-			this->textEdit->textAreaSelected->Add(textComponent);
-			this->textEdit->caret->RightArrowKeyMovingCaret();
+	if (currentCharacterIndex + 1 <= length) {
+		if (stringSize.cx + (currentCharacterSize.cx / 2) < currentX) {
+			mouseDragMovingCaret.RightMovingCaret(this->textEdit, &dc, currentTextComposite, &stringSize, currentCharacterIndex, currentX);
 		}
 	}
+	
+	
+
 	length = this->textEdit->textAreaSelected->GetLength();
 	if (length != 0) {
 		this->textEdit->selectedArea = true;
